@@ -1,0 +1,37 @@
+\documentclass[11pt,a4paper,oneside]{report}
+
+\begin{document}
+
+%----------------------------------------------------------------------------
+\chapter{Runtime Architecture}\label{sect:RuntimeArch}
+%----------------------------------------------------------------------------
+
+Running games require execution of untrusted code - in form of both the game engine and the bots - in a safe manner is complex task.
+
+The limitations of java's error handling security make the jvm unable to provide a platform where a whole game - all of the actors and client runtimes - can be run as a single process. Therefore separate java processes are necessary to achieve a safe runtime environment. 
+
+	\section{Runtime model}
+	
+	The runtime model consists of two main types of entities: the runtime handler which acts as the master in 
+	
+	\section{Actor client runtimes}
+	
+	Actor client runtimes are executable java processes that are responsible for communicating with the runtime handler, providing a secure environment in which the given actor can be used, processing request from the runtime handler, driving the actors in response to the received control messages and reporting any problems that may occur during the game.
+	
+		\subsection{Communication}
+	
+		\subsection{Actor logging}
+	
+		\subsection{Error reporting}
+	
+		\subsection{Engine client runtime}
+	
+		
+	
+		\subsection{Bot client runtime}
+	
+	\section{Runtime hander}
+
+	\section{Project structure}
+
+\end{document}
