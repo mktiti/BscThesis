@@ -4,6 +4,7 @@
 \usetikzlibrary{arrows,automata}
 \usepackage{float}
 \usepackage{caption}
+\usepackage{changepage}
 
 \begin{document}
 
@@ -162,7 +163,8 @@ The limitations of java's error handling security make the jvm unable to provide
 		As the engine runtime's proxy captures a method call attempt by the engine object, the client sends a proxy call message containing the target bot, requested method identifier and optional method parameters. This message is forwarded by the handler to the target client, who executes its bot's appropriate method. If this method produces a valid result under the configurable time limit, that value is returned wrapped into a call result message, all the way to the engine. If some error happens during the evaluation, -- as usual -- an error report is returned to the handler.
 		
 		However a special case is also possible, if the bot's method does not finish in time. If this happens, instead of an error report a bot timeout message is sent back to the engine. This bot timeout acts as a 'recoverable error', an event when the engine can choose to ignore the bot's shortcoming. If the engine was created without support for these occurrences, the default error processing takes place.
-
+		
+		\begin{adjustwidth}{-0.8cm}{}
 		\begin{minipage}[t]{.45\textwidth}
 			\begin{figure}[H]
 				\centering
@@ -225,6 +227,7 @@ The limitations of java's error handling security make the jvm unable to provide
 			\end{tikzpicture}
 			\end{figure}
 		\end{minipage}
+		\end{adjustwidth}
 
 \end{document}
 

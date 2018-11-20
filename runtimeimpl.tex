@@ -1,5 +1,21 @@
 \documentclass[11pt,a4paper,oneside]{report}
 
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{tabularx}
+
+\definecolor{mtypecolor}{HTML}{491b68}
+\definecolor{mtypeparamcolor}{HTML}{1e5b0e}
+\definecolor{mdatasizecolor}{HTML}{aa5908}
+\definecolor{mdatacolor}{HTML}{c40f0f}
+
+\newcommand{\code}{\texttt}
+
+\newcommand*{\xdash}[1][5em]{\rule[0.5ex]{#1}{0.55pt}}
+\def\emptycell{\multicolumn{1}{c|}{\xdash}}
+
 \begin{document}
 
 %----------------------------------------------------------------------------
@@ -7,40 +23,119 @@
 %----------------------------------------------------------------------------
 
 	\section{Messaging}
+		\subsection{Format}
+		
+		All messages start with a fixed prefix (\code{MESSAGE}) and end with a line break and their different parts are separated by hyphens. Messages consists of two logical parts: the header and the payload. The former specifies the type of the message and provides other information as type parameters which may be needed to process this kind of message, while the latter carries additional information in a form of a blob and its size in bytes.
+		
+		\begin{figure}[h]
+			\[
+				\code{MESSAGE-}%
+				\overbrace{\text{\code{%
+					\color{mtypecolor}\{Message type\}\color{black}-%
+					(\color{mtypeparamcolor}\{Type parameter\}\color{black}-)*%	
+				}}}^{Header}%
+				\overbrace{\text{\code{%
+					\color{mdatasizecolor}\{Data size\}\color{black}-%
+					\color{mdatacolor}\{Data\}?%
+				}}}^{Payload}%\text{\code{\textbackslash n}}%
+			\]
+			\caption*{\emph{Structure of the messages}}
+		\end{figure}
+		
+		\paragraph{Type parameters and payload}
+		
+		The difference between the type parameters and the payload data is that type parameters can be understood and processed without 'unsafe' operations such as java deserialization. Their arity and types are determined by the message type and their values may consist of primitives, strings or enumerations. This -- combined with a size limit on them -- allows the runtime handler to always safely parse, process and optionally route the messages without requiring to understand the potentially unsafe data of the payload.
+		
+		The data payload on the other hand deals with binary data produced by one of the actors, and as such should only be parsed by the actor clients, which are already equipped with the proper protective capabilities.
+		The payloads size (in bytes) is also included in the message for safe message handling.
+		
+		Both the type parameters and the payload are converted to base~64 strings as to make message formatting and parsing easier -- due to no necessary separator escaping.
+		
+		\begin{table}[h]
+			\centering
+			\setlength{\tabcolsep}{8pt}
+			\renewcommand{\arraystretch}{1.5}
+			\begin{tabularx}{\linewidth}{
+				|>{\hsize=0.8\hsize}X|% 
+				>{\hsize=0.8\hsize}X|%
+				>{\hsize=1.4\hsize}X|%
+			  }
+				\hline
+				 \multicolumn{1}{|c|}{\textbf{Message type}} &%
+				 \multicolumn{1}{c|}{\textbf{Parameters}} &%
+				 \multicolumn{1}{c|}{\textbf{Payload}} \\ \hline
+				
+				Start notice & \emptycell & \emptycell \\ \hline
+				Shutdown notice & \emptycell & \emptycell \\ \hline
+				
+				\multirow{2}{*}{Log entry} & Target actor & \multicolumn{1}{c|}{\multirow{2}{*}{\xdash}} \\
+					& Log message & \\ \hline
+				
+				Error report & Error message & \emptycell \\ \hline
+				
+				\multirow{2}{*}{Challenge result} & Points & \multicolumn{1}{c|}{\multirow{2}{*}{\xdash}} \\
+					& Max points & \\ \hline
+				
+				Match result & Three way result & \emptycell \\ \hline
+				Actor binary & Type & Binary (nothing on requests) \\ \hline
+				
+				\multirow{2}{*}{Proxy call} & \multirow{2}{*}{Target bot} & Target method \\
+					& & Call parameters \\ \hline
+				
+				Call result & Called method & Result data \\ \hline
+				
+				Bot timeout & \emptycell & \emptycell \\ \hline
+			\end{tabularx}
+			\caption*{\emph{Type parameters and payloads of message types}}
+		\end{table}
 
-	a
+		\subsection{Conversion and serialization}
+		
+			\paragraph{Conversion and deconversion}
+		
+			Conversion is the process during which domain representation of a message in the form of a Message object is converted into an intermediate state as it gets ready to be sent. Its result is MessageDTO, an object which holds the same header the original message did, but has its payload -- if any were present -- transformed into a processable, base~64 encoded string representation. Deconversion is its inverse operation. It is a distinct process from the general serialization of messages, as to ensure independence between the algorithms use in the two processes.
+			
+			This loose coupling is beneficial, as conversion is an unsafe routine that only actor clients should conduct. Message (de)conversion is required when dealing with remote proxy calls, and this breakup of concerns allows the runtime handler to parse and route a call request or call result message without attempting to decode its payload containing jvm objects as transformed by standard java serialization. As object (de)serialization is dangerous -- due to the construction of arbitrary large serialization 'bombs' --, it is best to pass these messages to the actor clients who are equipped with proper security measures to safely minister it.
 
-		\subsection*{Serialization}
+			\paragraph{Serialization and Deserialization}
+			
+			Serialization takes payload-less messages or converted messages and transforms them to the aforementioned general message format. This includes encoding the message header and concatenating it to the prefix and optional (already converted) payload. This encoding of the header -- and its pair decoding in deserialization -- can be done safely and strictly, as the contents of the header is specified by the message type and its parameters are simple values that can be easily converted to strings.
+			
+			As all parties require (de)serialization to communicate, the components providing these services are shared across all of them.
 
-		\subsection*{Error handling}
+		\subsection{Communication}
+		
+		All messaging is done over point-to-point, full-duplex TCP channels between the actor clients and the runtime handler. These connections are initialized by the clients, who as a command argument receive the host -- usually localhost -- and the port they should connect to. These ports are free ports chosen randomly by the handler and reserved before the start of the clients.
+		
+		Once these channels have been established, communication should begin as described by the communication model -- starting with the clients requesting the game specific actor binaries.
+		
+		If a game if finished -- in a normal way or because of errors -- or a communication channel should fail (e.g. due to unexpected crash of an actor), the runtime notifies all (still reachable) clients with shutdown notices. After sending and receiving these, all participants are to assume the game has ended, the clients stop themselves and the handler reports the result of the challenge or match.
 
-		\subsection*{Timeout handling}
+		Just like serialization, low level communication is helped by components shared across all members of the runtime model.
 
 	\section{Runtime handler}
 
-		\subsection*{Message threading}
+		\subsection{Stateful control}
 
-		\subsection*{Stateful control}
+		\subsection{Log handling}
 
-		\subsection*{Log handling}
+	\section{Actor runtime}
 
-	\section{General actor runtime}
+		\subsection{Startup}
 
-		\subsection*{Startup}
+		\subsection{Message threading}
 
-		\subsection*{Message threading}
-
-		\subsection*{Security}
+		\subsection{Security}
 		
-		\subsection*{Internal logging}
+		\subsection{Internal logging}
 		
 	\section{Engine actor runtime}
 
-		\subsection*{Initialization}
+		\subsection{Initializatio}
 
 	\section{Bot actor runtime}
 	
-		\subsection*{Initialization}
+		\subsection{Initialization}
 
 	\section{Remote invocation}
 
