@@ -1,11 +1,13 @@
 \documentclass[11pt,a4paper,oneside]{report}
 
-\usepackage{xcolor}
+\usepackage[dvipsnames]{xcolor}
 \usepackage{amsmath}
 \usepackage{multirow}
 \usepackage{caption}
 \usepackage{tabularx}
 \usepackage{tikz}
+
+\usepackage{listings}
 
 \definecolor{mtypecolor}{HTML}{491b68}
 \definecolor{mtypeparamcolor}{HTML}{1e5b0e}
@@ -18,6 +20,28 @@
 \def\emptycell{\multicolumn{1}{c|}{\xdash}}
 
 \usetikzlibrary{arrows,positioning, shapes.symbols,shapes.callouts,patterns,calc, automata}
+
+\lstdefinelanguage{Kotlin}{
+  comment=[l]{//},
+  commentstyle={\color{gray}\ttfamily},
+  emph={delegate, filter, first, firstOrNull, forEach, lazy, map, mapNotNull, println, return@},
+  emphstyle={\color{OrangeRed}},
+  identifierstyle=\color{black},
+  keywords={abstract, actual, as, as?, break, by, class, companion, continue, data, do, dynamic, else, enum, expect, false, final, for, fun, get, if, import, in, interface, internal, is, null, object, override, package, private, public, return, set, super, suspend, this, throw, true, try, typealias, val, var, vararg, when, where, while},
+  keywordstyle={\color{NavyBlue}\bfseries},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]",
+  morestring=[s]{"""*}{*"""},
+  ndkeywords={@Deprecated, @JvmField, @JvmName, @JvmOverloads, @JvmStatic, @JvmSynthetic, Array, Byte, Double, Float, Int, Integer, Iterable, Long, Runnable, Short, String},
+  ndkeywordstyle={\color{BurntOrange}\bfseries},
+  sensitive=true,
+  stringstyle={\color{ForestGreen}\ttfamily},
+}
+
+\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
+\lstset{framextopmargin=5pt, framexleftmargin=5pt, framexrightmargin=5pt, framexbottommargin=5pt, frame=bottomline}
+\lstset{language=Kotlin, frame=single, gobble=4, tabsize=4, showstringspaces=false}
+
 
 \begin{document}
 
@@ -361,17 +385,100 @@
 		
 	\section{Actor runtime}
 
-		\subsection{Startup}
-
-		\subsection{Message threading}
-
-		\subsection{Security}
+	The structure of actor runtimes is fairly simple and is largely identical between engine-- and bot clients. Their core component is the 'client', which provides the logic necessary to manage the actor assigned to them, and therefore of course contains actor role (engine or bot) specific code. The rest of the components involved in the communication process are equivalent in each cases. The client is based on three active objects all running on separate threads, a message receiver, a message sender and the aforementioned client. These elements are communicating with each other -- in a one--way manner -- over blocking queues.
 		
+	\begin{figure}[h]
+		\centering
+		\begin{tikzpicture}[->, >=stealth, rectangle,
+							every node/.style={minimum height=1cm, minimum width=2cm, align=center},
+							node distance=3cm, auto,
+							post/.style={->,shorten >=1pt,>=stealth',semithick},
+							passive/.style={rounded corners=.3cm}]
+		
+			\node [draw] (RH) [minimum width=3cm, minimum height=2cm] {Runtime\\Handler};
+			
+			\node [draw] (C) [below of=RH, node distance=3.5cm] {Channel};
+			
+			\node [draw] (R) [left of=C, node distance=4cm] {Receiver};
+			
+			\node [draw] (S) [right of=C, node distance=4cm] {Sender};
+				
+			\node [draw, passive] (In) [below of=R] {In Queue};
+				
+			\node [draw, passive] (Out) [below of=S] {Out Queue};
+				
+			\node [draw] (CL) [below of=C] {Client};
+				
+			\node [draw] (A) [below of=CL] {Actor};
+				
+			\draw[post] (RH) edge [<->] (C);
+			 
+			\draw[post] (R) edge [transform canvas={yshift=0.15cm}]
+				node [above, yshift=-0.25cm] {\emph{wait for}} (C);
+			\draw[post] (C) edge [transform canvas={yshift=-0.15cm}]
+				node [below, yshift=0.2cm] {\emph{message}} (R);
+			
+			\draw[post] (S) edge node [above, yshift=-0.25cm] {\emph{send}} (C);
+			
+			\draw[post] (R) edge node [align=left, minimum width=0cm] {\emph{put} \\ \emph{message}} (In);
+			
+			\draw[post] (S) edge [transform canvas={xshift=0-.15cm}]
+				node [left, align=right, minimum width=0cm] {\emph{wait for}} (Out);
+			\draw[post] (Out) edge [transform canvas={xshift=0.15cm}]
+				node [right, align=left, minimum width=0cm, yshift=-0.05cm] {\emph{message}} (S);
+							
+			\draw[post] (CL) edge [transform canvas={yshift=0.15cm}]
+				node [above, yshift=-0.25cm] {\emph{wait for}} (In);
+			\draw[post] (In) edge [transform canvas={yshift=-0.15cm}]
+				node [below, yshift=0.2cm] {\emph{message}} (CL);
+				
+			\draw[post] (CL) edge node [above, yshift=-0.5cm] {\emph{put}\\ \emph{message}} (Out);
+					
+			\draw[post] (CL) edge [transform canvas={xshift=0-.15cm}]
+				node [align=right, left, minimum width=0cm] {\emph{call}} (A);
+			\draw[post] (A) edge [transform canvas={xshift=0.15cm}]
+				node [align=left, right, minimum width=0cm] {\emph{result}} (CL);
+							
+			\draw[thick, dashed] ($(R.north west) + (-1,1)$) rectangle ($(A.south east) + (5,-1.5)$);
+			\node[draw, dashed, thick] (T)
+				[below of = A, node distance=1.5cm, minimum width=5cm]
+				{\textbf{Actor Runtime Client}};
+								
+		\end{tikzpicture}
+		\caption*{\emph{Actor runtime client model}}
+	\end{figure}
+	
+	The receiver waits for messages over the communication channel, processes them and places them in 'In queue', from where the client can get them. It may also initiate the exit of the client if a shutdown notice is received. Likewise, the sender sends messages placed in the 'Out queue' by the client.
+	
+		\subsection{Base client}
+
+			As the client's workflow is dependent on the actor's type it is managing, it is realized as two different classes -- the \code{EngineClient} and the \code{BotClient} --, but many common functions are outsources from these to shared dependencies.
+
+			\subsubsection*{Class loading and security}
+		
+			The most important job of all actor clients is the provision of a safe runtime environment where the actor's and the game api's inherently untrusted code may be executed. This is supported by the standard solutions provided by the java virtual machine. The heart of guarding valuable resources -- such as files or \mbox{I/O} capabilities, is the strict separation of safe-- and unsafe code with their respective permissions assigned.
+			
+			Safe code is constituted by all the sources of the runtime client and its dependencies such as java libraries used -- effectively the whole codebase. This partition is granted all possible permissions using a policy file, which is -- with the enforcing security manager -- put into effect via program arguments passed to the jvm.
+
+			\begin{center}
+				\begin{minipage}{11cm}
+					\begin{lstlisting}[language=Java, title={\code{client.policy}}]
+	   grant codeBase "file:${trusted.codebase}" {
+		   permission java.security.AllPermission "", "";
+	   };
+					\end{lstlisting}
+				\end{minipage}
+			\end{center}
+		
+			This policy grants all permissions to classes whose source URI matches the the file path also set as a vm argument through \code{-Dtrusted.codebase}. This property is in turn set by the starter script to the executable jar's path that not only contains the actor client but also all of its necessary properties as well.
+			
+			As a security manager is installed, other code sources have no granted permissions, therefore all other (unsafe) code parts need only not be marked from the same source.
+			
 		\subsection{Internal logging}
 		
 	\section{Engine actor runtime}
 
-		\subsection{Initializatio}
+		\subsection{Initialization}
 
 	\section{Bot actor runtime}
 	

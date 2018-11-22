@@ -24,6 +24,7 @@
 \lstset{framextopmargin=5pt, framexleftmargin=5pt, framexrightmargin=5pt, framexbottommargin=5pt, frame=bottomline}
 \lstset{language=Kotlin, frame=single, gobble=4, tabsize=4, showstringspaces=false}
 
+\newcommand{\code}{\texttt}
 
 \begin{document}
 
@@ -59,7 +60,7 @@ The system targets the Java Virtual Machine and is therefore reliant on its feat
 
 	\begin{center}
 		\begin{minipage}{11cm}
-		\begin{lstlisting}[caption={Trusted.kt}]
+		\begin{lstlisting}[title={\code{Trusted.kt}}]
 	object Trusted {
 		fun guardedLineCount(): Int {
 			return AccessController.doPrivileged {
@@ -69,7 +70,7 @@ The system targets the Java Virtual Machine and is therefore reliant on its feat
 	}
 		\end{lstlisting}
 	
-		\begin{lstlisting}[caption={Untrusted.kt}]
+		\begin{lstlisting}[title={\code{Untrusted.kt}}]
 	object Untrusted {
 		fun processCount() {
 			val lineCount = Trusted.guardedLineCount()
