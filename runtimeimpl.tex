@@ -6,6 +6,7 @@
 \usepackage{caption}
 \usepackage{tabularx}
 \usepackage{tikz}
+\usepackage{setspace}
 
 \usepackage{listings}
 
@@ -42,9 +43,8 @@
 \lstset{framextopmargin=5pt, framexleftmargin=5pt, framexrightmargin=5pt, framexbottommargin=5pt, frame=bottomline}
 \lstset{language=Kotlin, frame=single, gobble=4, tabsize=4, showstringspaces=false}
 
-
 \begin{document}
-
+\onehalfspacing
 %----------------------------------------------------------------------------
 \chapter{Runtime Implementation}\label{sect:RuntimeImpl}
 %----------------------------------------------------------------------------
@@ -470,22 +470,28 @@
 				\end{minipage}
 			\end{center}
 		
-			This policy grants all permissions to classes whose source URI matches the the file path also set as a vm argument through \code{-Dtrusted.codebase}. This property is in turn set by the starter script to the executable jar's path that not only contains the actor client but also all of its necessary properties as well.
+			This policy grants all permissions to classes whose source URI matches the the file path also set as a vm argument through \code{-Dtrusted.codebase}. This property is in turn set by the starter script to the executable jar's path that not only contains the actor client but also all of its necessary dependencies as well.
 			
-			As a security manager is installed, other code sources have no granted permissions, therefore all other (unsafe) code parts need only not be marked from the same source.
+			As a security manager is installed, other code sources have no granted permissions by default, therefore all other (unsafe) code parts need only not to be marked as being from the same source.
 			
-		\subsection{Internal logging}
+			The loading of the user--defined code blocks is implemented by a custom class loader (\code{BinaryClassLoader}) which works on in--memory byte array representations of java archives (JARs). These libraries are sent over to the actor client in actor binary messages, then the client passes them to the classloader for processing. The loader iterates through the compiled referencial type entries of the archive (\code{.class} files) and defines them using the standard native class loader methods. The binary class loader also sets these classes protection domain, which -- due to different source definitions -- provide no granted permissions to them.
+			
+			Although this way no permissions are granted to the user defined programs, they would still be able to engage in unwanted behavior, namely multi--thread operations. The game model specifies strict 'ask--respond' style communication between the engine and the bots for clear gameplay and enforceable timeout limiting. This means that when -- as a result of a proxy invocation -- a method of a bot is called, it must finish all operations when that method returns. As threads cannot be safely killed once started, this effectively forbids custom thread creation, even in non--straightforward ways, such as the use of an executor framework. Fortunately, while 'no granted permissions' still allow thread creation, there is a safe way of disabling thread creation for unsafe code. At the initialization of a thread object, the environment does check access permission, but the default behavior is to allow thread creation if the thread is created into the current thread group. The look up of the current group is done by the set up security manager using its \code{getThreadGroup} method. By overriding this method of the default security manager, we can return the root thread group, which will always be different from the caller's thread group, thus thread creation will fail when attempted from unsafe code.
+			
+		\subsubsection*{Actor initialization}
 		
-	\section{Engine actor runtime}
-
-		\subsection{Initialization}
-
-	\section{Bot actor runtime}
-	
-		\subsection{Initialization}
-
-	\section{Remote invocation}
-
+		Initializing an actor instance to manage first starts with finding the game's bot interface. This is done by searching through the user defined types and finding the appropriate class object. This capability is shared between the different types of runtime clients.
+		
+			\paragraph{Engine client}
+		
+			After the bot interface has been found, the engine client creates one or two stub instances for this interface. This is done using the java runtime's built--in dynamic proxy creation capability through the \code{Proxy} class' static \code{newProxyInstance} method. This method takes an invocation handler -- a callback that takes as parameters the context in which a method of the proxy was called, and meta data about that same method. My implementation of this callback is to create and send -- put into the outgoing message queue to be more precise -- a proxy call message. This message will contain the target bot, a unique identifier of the method (full signature), and the method arguments serialized.
+			
+			After the stubs have been generated, the engine client searches through the user defined classes and searches for the engine and creates an instance of it with the previously created proxies as the constructor parameters.
+			
+			\paragraph{Bot client}
+			
+			The bot client finds the bot implementation that realizes the bot interface (and has a zero argument constructor) and instantizes it. Then the client uses the bot interface to create a skeleton for the remote invocation. This object holds all the bot interface's methods (represented by their unique identifiers, same as on the engine client's side) mapped to the aforementioned bot instance's corresponding methods. When a proxy call message is received, this skeleton executes a lookup of the method identifier and calls the matching method of the bot and sends the result back as a call result message. 
+			
 \end{document}
 
 
