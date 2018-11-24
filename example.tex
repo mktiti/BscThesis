@@ -1,0 +1,134 @@
+\documentclass[11pt,a4paper,oneside]{report}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{listings}
+\usepackage{setspace}
+
+\lstdefinelanguage{Kotlin}{
+  comment=[l]{//},
+  commentstyle={\color{gray}\ttfamily},
+  emph={delegate, filter, first, firstOrNull, forEach, lazy, map, mapNotNull, println, return@},
+  emphstyle={\color{OrangeRed}},
+  identifierstyle=\color{black},
+  keywords={abstract, actual, as, as?, break, by, class, companion, continue, data, do, dynamic, else, enum, expect, false, final, for, fun, get, if, import, in, interface, internal, is, null, object, override, package, private, public, return, set, super, suspend, this, throw, true, try, typealias, val, var, vararg, when, where, while},
+  keywordstyle={\color{NavyBlue}\bfseries},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]",
+  morestring=[s]{"""*}{*"""},
+  ndkeywords={@Deprecated, @JvmField, @JvmName, @JvmOverloads, @JvmStatic, @JvmSynthetic, Array, Byte, Double, Float, Int, Integer, Iterable, Long, Runnable, Short, String},
+  ndkeywordstyle={\color{BurntOrange}\bfseries},
+  sensitive=true,
+  stringstyle={\color{ForestGreen}\ttfamily},
+}
+
+\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
+\lstset{framextopmargin=5pt, framexleftmargin=5pt, framexrightmargin=5pt, framexbottommargin=5pt, frame=bottomline}
+\lstset{language=Kotlin, frame=single, gobble=4, tabsize=4, showstringspaces=false}
+
+\newcommand{\code}{\texttt}
+
+\begin{document}
+\onehalfspacing
+
+%----------------------------------------------------------------------------
+\chapter{Example game}\label{sect:Example}
+%----------------------------------------------------------------------------
+
+	As an example to demonstrate the 
+
+	\section{Battleship -- Match}
+
+	For the demonstration 
+
+	The game has two phases -- the setup of the battlefield and the shooting. 
+
+		\subsection{Design}
+		
+		As the shooting part of the game is 
+
+		\subsection{Game API}
+		
+		The api of the game is fairly simple, mostly consists of model classes that help describe the game model in a type--safe manner. For a more complex game the creation of more utilities would make sense as to make bot development easier. 
+		
+			\subsubsection{Domain classes}
+			
+			These include any models that are used in the engine--bot communication or may be useful for bot development.
+			
+				\paragraph{\code{Position}} A simple $(x; y)$ coordinate pair, also lets one check whether it is a valid position on the game field. \emph{(data class)}
+				
+				\paragraph{\code{Direction}} The orientation of a ship, may be vertical or horizontal. \emph{(enumeration)}
+				
+				\paragraph{\code{Ship}} Describes the properties of a ship, including its (start) position, direction and size. \emph{(data class)}
+				
+				\paragraph{\code{ShootResult}} the result of an shot, may be a miss, a hit or a sink. \emph{(enumeration)}
+				
+				\paragraph{\code{TargetMap}} the view of the opponent's field. Shows all the tried positions as shoot results. When a ship is sunk, its bordering water is marked missed, and the ship itself as sunk. Each position can be queried individually and it also contains a helper method to list all non--tried targets.
+			
+		
+			\subsubsection{Bot interface}
+			
+			The bot interface (\code{BotInterface}) is based on the design of the communication between the engine and the bots, therefore it has two abstract methods: \code{setupField} and \code{nextShoot}.
+
+			\code{setupField} takes the sizes of the ships to be placed as its parameter and must return a valid list of ships. It is called at the beginning of the game once.
+			
+			\code{nextShoot} is called on each turn and is used to determine the target of the next shot. Its arguments are the current value of the bot's target map, the previous target of the bot, and the result of the previous shot. The latter two are \code{null} on the first turn of the bot. The method must return a valid, not yet tried target to shoot at.
+		
+			\begin{center}
+				\begin{minipage}{12cm}
+		\begin{lstlisting}[language=Java, title={\code{BattleshipBot.java}}]
+	 public interface BattleshipBot extends BotInterface {
+	    
+	     List<Ship> setupField(final List<Integer> shipSizes);
+
+	 	 Position nextShoot(
+	 		 final TargetMap targetMap,
+			 final Position previousTarget,
+    		 final ShootResult previousResult
+		 );
+	 }
+		\end{lstlisting}
+				\end{minipage}
+			\end{center}
+		
+			\subsubsection{Utility}
+			
+			As this game is fairly simple, I have create a simple utility class for shared usage -- \code{ShipUtil}. This helper has a simple public method, \code{randomSetup}, which places all the ships at random -- but valid -- positions at random orientations. I have found this rather practical, as the placement of the ships -- if not following some elaborate scheme -- is often done randomly by the players and is a non--trivial task (due to the rules of ship placement). 
+		
+		\subsection{Engine}		
+
+		The engine module contains the actual game engine class, as well as other resources that class uses, such as \code{ShipMap} and \code{ShipState} which mutably hold information of the state of a player's field.
+
+		The game engine class' structure is quite typical. For per--bot data keeping it defines a static inner class to hold the field of the bot with its last target and the result of that shot (if any). For each bot an instance of this gets created on the duel game engine's bot initialization phase, based on given bot's placement of its ships.
+		
+		After that, the turn--based shooting starts. A turn here -- by the duel game engine's definition -- represents a set of operations that take place while one of the bots is working. This may include multiple shots, until a it finally misses or wins the game by sinking all enemy ships. After each shot attempt the engine first validates the target by checking it is a not yet tried position on the board. Based on the validation result the engine either declares the game lost due to an error, or actually processes the changes which results in a shot result. The bot's previous shot data is always updated to the current target and result, then based on the shot result some action may follow: 
+		
+		\begin{itemize}
+		
+			\item If the shot was a miss, the bot's turn is over.
+			
+			\item If the shot was a hit, the turn continues with a next shot.
+			
+			\item If the shot sank a ship, the engine checks if all ships are sunk. If that is the case, the game is won by the current bot, otherwise the turn continues as with simple hits.
+		
+		\end{itemize}
+
+		\subsection{Random bot}
+		
+		I have found it often useful when implementing a game to first create a 
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

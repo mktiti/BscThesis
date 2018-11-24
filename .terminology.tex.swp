@@ -3,7 +3,7 @@
 
 %\begin{document}
 
-	\chapter*{Glossary}\addcontentsline{toc}{chapter}{Glossary}
+	\chapter*{Glossary}\addcontentsline{toc}{chapter}{Introduction}
 
 	\paragraph{Game}
 	\begin{itemize}
