@@ -1,0 +1,55 @@
+\documentclass[11pt,a4paper,oneside]{report}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{listings}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+
+\lstdefinelanguage{Kotlin}{
+  comment=[l]{//},
+  commentstyle={\color{gray}\ttfamily},
+  emph={delegate, filter, first, firstOrNull, forEach, lazy, map, mapNotNull, println, return@},
+  emphstyle={\color{OrangeRed}},
+  identifierstyle=\color{black},
+  keywords={open, operator, abstract, actual, as, as?, break, by, class, companion, continue, data, do, dynamic, else, enum, expect, false, final, for, fun, get, if, import, in, interface, internal, is, null, object, override, package, private, public, return, set, super, suspend, this, throw, true, try, typealias, val, var, vararg, when, where, while},
+  keywordstyle={\color{NavyBlue}\bfseries},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]",
+  morestring=[s]{"""*}{*"""},
+  ndkeywords={@Deprecated, @JvmField, @JvmName, @JvmOverloads, @JvmStatic, @JvmSynthetic, Array, Byte, Double, Float, Int, Integer, Iterable, Long, Runnable, Short, String},
+  ndkeywordstyle={\color{BurntOrange}\bfseries},
+  sensitive=true,
+  stringstyle={\color{ForestGreen}\ttfamily},
+}
+
+\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
+\lstset{framextopmargin=5pt, framexleftmargin=5pt, framexrightmargin=5pt, framexbottommargin=5pt, frame=bottomline}
+\lstset{language=Kotlin, frame=single, gobble=4, tabsize=4, showstringspaces=false}
+
+\newcommand{\code}{\texttt}
+
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\begin{document}
+\onehalfspacing
+
+\chapter{Web framework}\label{sect:Web}
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,291 @@
+%\documentclass[11pt,a4paper,oneside]{report}
+
+%\usepackage[dvipsnames]{xcolor}
+%\usepackage{listings}
+%\usepackage{setspace}
+%\usepackage{caption}
+%\usepackage{tabularx}
+%\usepackage{amsmath}
+%\usepackage{amssymb}
+%\usepackage{mathtools}
+
+%\lstdefinelanguage{Kotlin}{
+%  comment=[l]{//},
+%  commentstyle={\color{gray}\ttfamily},
+%  emph={delegate, filter, first, firstOrNull, forEach, lazy, map, mapNotNull, println, return@},
+%  emphstyle={\color{OrangeRed}},
+%  identifierstyle=\color{black},
+%  keywords={open, operator, abstract, actual, as, as?, break, by, class, companion, continue, data, do, dynamic, else, enum, expect, false, final, for, fun, get, if, import, in, interface, internal, is, null, object, override, package, private, public, return, set, super, suspend, this, throw, true, try, typealias, val, var, vararg, when, where, while},
+%  keywordstyle={\color{NavyBlue}\bfseries},
+%  morecomment=[s]{/*}{*/},
+%  morestring=[b]",
+%  morestring=[s]{"""*}{*"""},
+%  ndkeywords={@Deprecated, @JvmField, @JvmName, @JvmOverloads, @JvmStatic, @JvmSynthetic, Array, Byte, Double, Float, Int, Integer, Iterable, Long, Runnable, Short, String},
+%  ndkeywordstyle={\color{BurntOrange}\bfseries},
+%  sensitive=true,
+%  stringstyle={\color{ForestGreen}\ttfamily},
+%}
+
+%\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
+%\lstset{framextopmargin=5pt, framexleftmargin=5pt, framexrightmargin=5pt, framexbottommargin=5pt, frame=bottomline}
+%\lstset{language=Kotlin, frame=single, gobble=4, tabsize=4, showstringspaces=false}
+
+%\newcommand{\code}{\texttt}
+
+%\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+%\begin{document}
+%\onehalfspacing
+
+%----------------------------------------------------------------------------
+\chapter{Kreator}\label{sect:Kreator}
+%----------------------------------------------------------------------------
+
+Parallel to the development of the main project -- and in coordination with it --, I have started working on a framework to allow well--integrated dependency injection for kotlin.
+
+Although solutions of varying functionality and quality have existed for years -- such as Kodein or KOIN for kotlin and many others for the jvm in general --, I have found them not to work in accordance of how I would prefer such a library or framework to behave.
+
+	\section{Introduction}
+	
+	Dependency injection in object oriented environments is usually manifested in providing objects to other objects, where the latter use some accessible services of the former. This pattern can be immensely useful in reducing coupling and module dependency, which in turn allow for easier unit testing, better project transparency and more.
+	
+		\subsection*{Types of injection}
+		
+		Conventionally, dependency injection is separated into three main types: \emph{constructor--}, \emph{setter--}, and \emph{interface injection}. These cover most of the options commonly used in the java word, but -- while using for--java libraries is possible, -- due to more powerful language capabilities, solutions in the kotlin ecosystem use different methods. The most important features of kotlin that endorse different patterns are strong immutability support (\code{val}), simplified 'setter constructor' definition, both incentivizing an in--constructor initialization of dependencies, and first class singleton support (\code{object}), which allows for easier programmatic injection. Setter-- and interface injection is, of course, still possible (through nullable or \code{lateinit} properties), but result in a reduction of code quality.
+
+				
+		
+		\subsection*{Categorization}
+	
+		DI is compromised of two necessary phases: resource declaration and injection. The former is the process in which dependencies are identified for the framework, while injection is the practice of actually providing the requested dependencies, optionally initializing the in the process.
+		
+		Most available dependency injection solutions work in what I would categorize into one of two ways: declarative-- or imperative injection. Declarative injection uses annotation (or in the past, commonly XML configuration) to identify resources, and injects these at marked injection points, such as setters of annotated properties. This kind of injection relies on managed component handling to detect when an injection should occur. On the other hand imperative injection frameworks require components to be registered at startup to be injectable, and they can be requested via functions.
+	
+	\section{Design}
+	
+		Kreator is based on a mixed system where resource identification is done in a declarative way using annotations, while resource injection is implemented in an imperative manner through global functions (\code{inject*}). This aims to capture best both words -- declarative definitions and imperative injections.
+		
+		I have focused on supporting constructor injecting, because as it allows for easy non--nullable, immutable dependency properties it is the best type of injection. To achieve this, kreator is heavily based on kotlin's default method parameters, which allow passing dependencies manually, or falling back to injection. The main design principle is that all components (classes) should take their dependencies as constructor parameters -- usually with the type of their provided service interface and usually using kotlin's unified constructor--property definition construct -- and provide default values for them via the injector functions. It is also an important thing that subtypes of classes shall have constructor parameters for their parents' constructor parameters as well (with default injection) to keep manual dependency passing possible. This is unfortunately easy to forget when extending a component, but is necessary to enable passing dependecies transitively. This design makes kreator a fairly "magic--free" framework, where resource declarations are transparent and injection is cleanly done.
+		
+		\begin{center}
+				\begin{minipage}{12cm}
+		\begin{lstlisting}[language=Kotlin, title={\code{userService.kt}}]
+	  open class UserService(
+		  private val userRepo: UserRepo = inject(),
+		  private val accountRepo: AccountRepo = inject()
+	  ) {
+		  open fun create(name: String, balance: Int) {...}
+	  }
+	  
+	  class RemoteUserService(
+		  private val provider: ConnectionProvicder = inject(),
+		  
+		  userRepo: UserRepo = inject(),
+		  accountRepo: AccountRepo = inject()
+	  ) : UserService(userRepo, accountRepo) {
+
+		  override fun create(name: String, balance: Int) {...}
+	  }
+		\end{lstlisting}
+				\end{minipage}
+			\end{center}
+	
+		Even though dependency injection is the goal of the framework, kreator's injection mechanism is really just resource provision -- provided resources are only "injected" to modules because the user connects the providers to the constructors. Because of this, kreator can perhaps more correctly be referred to as a resource management and provision framework. It is perfectly valid to use injector methods in method bodies or property initializers (or inside constructors), but doing so breaks the possibility of manual dependency passing and effectively hides these used services, and therefore is ill--advised. Of course it sometimes still can be useful, especially when initialization cannot happen by hand anyway, such as in singleton properties initializers or in the main function.
+	
+		\subsection*{Type}
+		
+		\subsection*{Injection function}
+		
+		Injection is completed using three base functions, \code{inject}, \code{injectOpt}, and \code{injectAny}, whose behavior differ slightly. These functions all take advantage of kotlin's (limited) reified generics to provide type--safety. They are designed in a way to be easily extended by building atop them in a third--party library. All three functions follow the same qualification filtering algorithm, but in the case of some edge cases return different results:
+	
+			\paragraph{Standard injection}
+			
+			Using the standard injection logic, \code{inject} returns a non--null object, or throws an \code{InjectionException} if no resource matches the given injection qualifiers, or if multiple resources match the qualifiers. 
+		
+			\paragraph{Optional injection}
+			
+			Works like standard injection, except returns \code{null} if no matching resource can be found.
+		
+			\paragraph{Any injection}
+			
+			Differs from the standard injection in that if the resource qualifiers are ambiguous, one of the matching resources are returned at random.
+		
+		\subsection*{Arity}
+		
+		Arity describes how a resource producer should be used by the injection framework.
+		
+		\begin{itemize}
+		
+			\item{\textbf{Per request}} The producer should be invoked on every injection request.
+		
+			\item{\textbf{Singleton}} The producer should be invoked at the time of the first request, the produced value should be returned at future injection requests.
+		
+			\item{\textbf{Singleton autostart}} Similar to singleton, but the producer should be invoked at the time of the initialization (resource discovery phase) of the injection framework.
+		
+		\end{itemize}
+	
+	\section{Injection qualifiers}
+	
+		Injection qualifiers are meta data connected to the injectable resources which are used to select a resource for a given injection request. Such a request is a call of one of the injection functions. Its selector inputs are the implicitly defined -- through generics -- injection type and an optional tag value.
+	
+		\subsection*{Tag}
+	
+		Tags are the most straightforward qualifiers assigned to resources. They are custom string that are tested based on equality to a query string, and a resource definition can have multiple of them. At injection, the caller may pass a tag with which resources must be marked to be eligible. As these string can have any value, it is up to the programmers to create standard, meaningful tags to be used in a project. Tags should be used as a way of describing different behavior between resources of a type, and therefore often can be grouped by some attribute.
+		
+		Examples: \emph{file}, \emph{db}, \emph{in--mem};
+		\emph{direct}, \emph{cached};
+		\emph{blocking}, \emph{async};
+		\emph{secure}, \emph{non--secure}
+	
+		\subsection*{Environment}
+
+		The environment describes a hierarchical (tree organized) setting in which a given resource can be used. An environment value is also set for the program at runtime using the \code{KREATOR\_ENV} environmental variable. This qualifier is unique, as it not only filters resources, but also groups them into classes. These classes are looked through in a specific order to find matching resources. The groups are as follows:
+		
+		\begin{table}[h]
+			\centering
+			\setlength{\tabcolsep}{8pt}
+			\renewcommand{\arraystretch}{1.5}
+			\begin{tabularx}{0.8\linewidth}{
+				|>{\hsize=1\hsize}Y|% 
+				>{\hsize=1.5\hsize}Y|%
+				>{\hsize=0.5\hsize}Y|%
+			  }
+				\hline
+			 	\textbf{Env. group} & \textbf{Example resources} & \textbf{Lookup} \\ \hline
+				Exact match & \code{"test.unit"} & First \\ \hline
+				Sub env. & \code{"test.unit.junit"} & Second \\ \hline
+				Sup env. & \code{"test"}, \code{""} & Third \\ \hline
+				Neither & \code{"dev"}, \code{"prod.local"} & Never \\ \hline
+			\end{tabularx}
+			\caption*{\emph{Groups and examples for the program environment }\code{"test.unit"}}
+		\end{table}
+		
+		As the default environment (\code{""}) is a parent of all others, if no value is set, all -- otherwise eligible -- resources can be injected.
+		
+		Environments are use to define environment dependent behavior, most commonly to create test suck as mocks that should not be used in production. They can also be used to make the program work seamlessly on any host, e.g. on different cloud hosts or operating systems. Environments can also be used to provide implementation with different error processing or logging configurations.
+		
+		Test resource limitation is achieved in the main project -- in part -- using environments, these the maven surefire (tester) plugin is configured to execute unit tests under \code{"test.unit"}.
+		
+		\subsection*{Default}
+	
+		The default flag is used to select a resource when multiple are eligible for injection. It is a simple boolean value, with a false value by default. Default resources always take precedence over non--default ones. 
+	
+	\section{Resource declaration}
+	
+	In contrast to some DI frameworks (such as most declarative ones, including java CDI) not all classes that comply with some rules (e.g. having no--arg constructors) are automatically eligible for injection. As more common in programmatic systems, resources must be marked explicitly as injectable -- but using annotations.
+	The four annotations associated with resource declaration are \code{InjectableType}, \code{Injectable}, \code{TestInjectable}, and \code{NotInjectableFor}.
+
+		\paragraph{\code{InjetableType}} This annotation marks types act as a target for injection. It is intended to be used on interfaces that define the behavior of a type of services.
+		
+		\paragraph{\code{Injectable}, \code{TestInjectable}} These define resource providers with their respective configuration. They may be placed on no--argument functions, constructors or classes with such constructors. Their configuration defines qualifiers of the resource (environment, tags, arity, defaultness) and their injectable types that define for which types can the resource be provided. By default (if the types are left empty), a resource is injectable for its own type (without is needing to be marked injectable type) and all of its parent injectable types. If types are set explicitly, the resource can only by injected for the set types.
+		
+		A single provider can have multiple injectable annotations, each with their own set of qualifiers to establish different roles for the resource.
+		
+		\code{TestInjectable} is a simple type--safe helper whose only job is to prefix all environments with \code{"test"}, the most used environment.
+
+		\paragraph{\code{NotInjectableFor}} This annotation	acts as a disqualifier for specific types. It is to be placed on providers that are annotated with \code{Injectbale} (or \code{TestInjectable}) and have a lot of injectable parent types but are not intended to be injectable for all of them. It allows to type qualifier to stay non--defined (implicitly all injectable supertypes) and listing only a handful of them as not injectable for.
+
+	\section{Dependency injection}
+	
+	Programmatic resource injection is a flexible 
+	
+	\section{Property injection}
+	
+	As an independent submodule, Kreator contains a property configuration framework which allows for string, integer and boolean properties defined in various sources, such as environment variables, property files or structured config files. Like the resource injection parts, this module is configured via environmental variables (source type and optionally source location), supports optional and non--optional properties, is type--safe and provides default no--op sources if configuration is not present.
+	
+	This system is relied on by the main project for environment dependent configuration of the data source, runtime actor handlers, test games and test data manager scripts.
+	
+		\begin{center}
+			\begin{minipage}{12cm}
+		\begin{lstlisting}[language=Java, title={\emph{Sample config} -- \code{tulkas.conf}}]
+	Client {
+		Log {
+			base-dir: /tulkas/log/
+		}
+		Engine {
+        	script-path: /tulkas/engine-runtime-client/start.sh
+        	redirect-out: true
+		}
+		Bot {
+        	script-path: /tulkas/bot-runtime-client/start.sh
+        	redirect-out: true
+    	}
+	}
+	
+	Server {
+		Database {
+        	DriverClass: org.hsqldb.jdbc.JDBCDriver
+        	ConnectionString: jdbc:hsqldb:mem:tulkasDB
+        	Username: tulkas
+        	Password: tulkas
+
+        	Script {
+            	Init:  /sql/create.sql
+            	Fill:  /sql/insert_test_data.sql
+            	Clear: /sql/clear_tables.sql
+            	Drop:  /sql/delete.sql
+        	}
+    	}
+	}
+		\end{lstlisting}
+			\end{minipage}
+		\end{center}
+		
+		\begin{center}
+			\begin{minipage}{12cm}
+		\begin{lstlisting}[language=Kotlin, title={\emph{Example usage} -- \code{dbConnection.kt}}]
+	@InjectableType
+	interface ConnectionSource {
+		operator fun invoke(): Connection
+	}
+
+	@Injectable(
+		arity=SINGLETON_AUTOSTART, default=true, tags=["jdbc"]
+	)
+	class JdbcConnectionSource(
+		driverClass: String
+				= property("Server.Database.DriverClass"),
+        private val connectionString: String
+        		= property("Server.Database.ConnectionString"),
+        private val username: String
+        		= property("Server.Database.Username"),
+        private val password: String
+        		= property("Server.Database.Password")
+	) : ConnectionSource {
+		init {
+	        Class.forName(driverClass) // Load external class
+	    }
+
+	    override operator fun invoke(): Connection =
+	    	getConnection(connectionString, username, password)
+	}
+		\end{lstlisting}
+			\end{minipage}
+		\end{center}
+	
+	\section{Project structure}
+	
+	Kreator is separated into four modules all targeting their respective jar files -- \emph{annotation}, \emph{api}, \emph{core}, and \emph{property}.
+	
+	\paragraph{Annotation} contains necessary types for resource declaration, it is a very minimal library that can be used by any frameworks or libraries that wish to provide optional kreator--based injection support. It only contains declarative parts, therefore if a dependency of a program is built on it, but the program itself decides not to use kreator, no disadvantage will happen.
+	
+	\paragraph{API} defines the injetion functions with default no--op implementations, therefore it too can be used in a library without the it affecting all users of that library, only the injections will fail (return null on optional injections).
+	
+	\paragraph{Core} includes the default implementation of the implementation logic defined by \emph{api} and is necessary for injection.
+	
+	\paragraph{Property} defines and implements all the aforementioned property configuration capabilities.
+	
+%\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+

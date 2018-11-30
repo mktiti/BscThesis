@@ -20,15 +20,16 @@
 \usepackage{lastpage}
 \usepackage{anysize}
 \usepackage{sectsty}
-\usepackage{setspace}  % Ettol a tablazatok, abrak, labjegyzetek maradnak 1-es sorkozzel!
-\usepackage{caption}
 \usepackage{hyperref}
+\usepackage{caption}
 
 \usepackage{multirow}
 \usepackage{tabularx}
 \usepackage{tikz}
 \usepackage{float}
 \usepackage{changepage}
+
+\usepackage{setspace}
 
 \usetikzlibrary{arrows, positioning, shapes.symbols, shapes.callouts, patterns, calc, automata}
 
@@ -39,6 +40,8 @@
 
 \newcommand*{\xdash}[1][5em]{\rule[0.5ex]{#1}{0.55pt}}
 \def\emptycell{\multicolumn{1}{c|}{\xdash}}
+
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
 
 %--------------------------------------------------------------------------------------
 % Main variables
@@ -163,8 +166,8 @@
 	environment,%
 	runtimearch,%
 	runtimeimpl,%
-	%kreator,%
-	%examples,%
+	kreator,%
+	example,%
 	%evalutaion,%
 	%summary,%
 	acknowledgement,%
@@ -205,6 +208,10 @@ aboveskip=10pt}
 \include{environment}
 \include{runtimearch}
 \include{runtimeimpl}
+
+\include{kreator}
+
+\include{example}
 
 \include{acknowledgement}
 
