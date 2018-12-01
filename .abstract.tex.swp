@@ -12,4 +12,4 @@ Jelen projekt célja egy rugalmas, nyitott környezet kifejlesztése, mely lehet
 This goal of the project is to develop an flexible, open runime that allows for the safe execution of distinct, connected programs from untrusted sources on the jvm. It is based largely on the platform's security capabilities extended with custom solutions. The framework should also provide an easy way of creating these programs in a language--compatible fashion, with the least amount of necessary obstacles that provide the required reasonable security.
 \vfill
 
-%\end{document}
+\end{document}
