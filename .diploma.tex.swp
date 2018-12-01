@@ -168,6 +168,7 @@
 	runtimeimpl,%
 	kreator,%
 	example,%
+	web,%
 	%evalutaion,%
 	%summary,%
 	acknowledgement,%
@@ -212,6 +213,7 @@
 \include{kreator}
 
 \include{example}
+\include{web}
 
 \include{acknowledgement}
 
@@ -222,7 +224,7 @@
 \addcontentsline{toc}{chapter}{Irodalomjegyzék}
 \bibliographystyle{plain}
 
-\include{appendices}
+%\include{appendices}
 
 \label{page:last}
 \end{document}
