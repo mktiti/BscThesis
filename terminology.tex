@@ -3,30 +3,30 @@
 
 %\begin{document}
 
-	\chapter*{Glossary}\addcontentsline{toc}{chapter}{Glossary}
+	\chapter*{Glossary}\addcontentsline{toc}{chapter}{Introduction}
 
 	\paragraph{Game}
 	\begin{itemize}
-		\item A playable entity for which playing bots can be written. It consists of a game API, a game engine and other meta data including a unique name and player number information. 
+		\item A playable entity for which playing bots can be written. It consists of a game API, a game engine, and other meta data including a unique name and player number information. 
 		
 		\item An actual event of a game being played by a bot or bots and guided by the game's engine.
 	\end{itemize}
 	
 	\paragraph{Challenge} A single player game, whose result (if not an error) is a whole number representing the score received by the playing bot, and an optional maximum points limit.
   
-  	\paragraph{Match} A two player, competitive game which can be played by two different bots and results in a three way outcome or an error.
+  	\paragraph{Match} A two player, competitive game, which can be played by two different bots, and results in a three way outcome or an error.
   
-  	\paragraph{Game Runtime API} A java library containing type definitions which allows games and bots to be created. It is to be used as a provided (non included) dependency for the game engine, game api and bot implementations.
+  	\paragraph{Game Runtime API} A java library containing type definitions that allows games and bots to be created. It is to be used as a provided (non included) dependency for the game engine, game api, and bot implementations.
   	
-  	\paragraph{Engine Runtime API} A java library containing type definitions and abstract base implementations which allow game engines to be written. It is to be used as a provided (non included) dependency for the game engine.
+  	\paragraph{Engine Runtime API} A java library containing type definitions and abstract base implementations that allow game engines to be written. It is to be used as a provided (non included) dependency for the game engine.
   
-  	\paragraph{(Game) Engine} An executable library which provides the necessary logic and implementation for a game to work according to its rules.   
+  	\paragraph{(Game) Engine} An executable library that provides the necessary logic and implementation for a game to work according to its rules.
   
-  	\paragraph{Game API} A java library which contains type definitions and utility code that enable users to create bots for the specific game.
+  	\paragraph{Game API} A java library that contains type definitions and utility code that enable users to create bots for the specific game.
   
-  	\paragraph{Bot interface} An interface which extends the BotInterface marker interface defined in the game runtime api. It defines the game specific methods through which the game engine can interact with the bot. 
+  	\paragraph{Bot interface} An interface that extends the \code{BotInterface} marker interface defined in the game runtime api. It defines the game specific methods, through which the game engine can interact with the bot. 
   	
-  	\paragraph{Bot} A virtual player built to play a specific game - alone if that is a challenge or against another bot if that is a match. It is implemented as a class realising the game's bot interface.
+  	\paragraph{Bot} A virtual player built to play a specific game --- alone if that is a challenge or against another bot if that is a match. It is implemented as a class realizing the game's bot interface.
     	
   	\paragraph{Actor} A collective term referring to a game engine and the bot or bots playing its game in a given challenge or match.
   

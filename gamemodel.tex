@@ -6,60 +6,58 @@
 \chapter{Game Model}\label{sect:GameModel}
 %----------------------------------------------------------------------------
 
-In order to be operable by the runtime, the games and their respective bots must match certain type level requirements and abide to some contracts.
+In order to be operatable by the runtime, the games and their respective bots must match certain type level requirements and abide some contracts.
 
 	\section{Game API}
 	
-	The game api is a library which contains everything that is required or may help to develop bots for the game. This includes the bot interface, all types used in communicating between the engine and a bot and various helpers and utilities to ease bot development.
+	The game api is a library which contains everything that is required or may help to develop bots for the game. This includes the bot interface, all types used in communicating between the engine and a bot, and various helpers and utilities to ease bot development.
 
 		\subsection*{Bot interface}
 		
-		The bot interface is a simple java interface that extends the BotInterface marker interface found in the universal game runtime api and defines the operations a bot must support. Through its methods will the engine communicate with a bot - which must implement this interface. In order to ensure better compatibility with different programming paradigms - such as functional programming - and generally make bot development easier, is is advised to operate bots as stateless entities and pass the state of the game to them in these methods. 
+		The bot interface is a simple java interface that extends the \code{BotInterface} marker interface found in the universal game runtime api and defines the operations a bot must support. Through its methods will the engine communicate with a bot, which must implement this interface. In order to ensure better compatibility with different programming paradigms (such as functional programming), and generally make bot development easier, it is advised to operate bots as stateless entities, and pass the current state of the game to them in these methods. 
 		
 		\subsection*{API types}
 
-		These domain classes and interfaces are to represent the internal model of the game according to its logic. They can be passed to the bot through the bot interface's methods or returned from them. To allow the engine and bots to run on separate virtual machines, these must be serializable. Due to their vm separation, when passing one of these objects to a bot, a replica will be created and therefore changes made to by the engine or bot to their objects will not be visible to the other's instances. If changes are to be made on such parameter by the bot then the returning of the changed value should be used. It is generally a good idea to define these types as simple immutable value classes to help reduce bugs created by not properly understood sharing mechanism.
+		These domain classes and interfaces are to represent the internal model of the game according to its logic. They can be passed to the bot through the bot interface's methods, or be returned from them. To allow the engine and the bots to run on separate virtual machines, these must be serializable. Due to their vm separation, when passing one of these objects to a bot, a replica will be created, and therefore changes made by the engine or bot to their objects will not be visible to the other's instances. If changes are to be made on such parameters by the bot, then the changed value should be returned. It is generally a good idea to define these types as simple immutable value classes to help reduce potential bugs created as a result of improper understanding of the object sharing mechanism.
 		
 		\subsection*{Utilities}
 		
-		As a game is generally created to be played by many bots, it is very helpful from the game developer to take time and create well usable utilities to help bot development efforts. These helpers usually operate on the domain classes and provide functionality which most bot developers would have to write on their own because of their frequent necessity.
+		As a game is generally created to be played by many bots, it is very helpful of the game developer to take their time and create well-usable utilities to help bot development efforts. These helpers usually operate on the domain classes and provide functionality that most bot developers would have to write on their own, because of their frequent necessity.
 
 	\section{Game engine}
 	
-	The game engine is a library which contains the implementation of the game logic (the engine itself) and optionally other relevant classes and interface. There are two requirements for being a valid game engine:
+	The game engine is a library which contains the implementation of the game logic (the engine itself) and optionally other relevant classes and interfaces. There are three requirements for being a valid game engine:
 	
 	\begin{itemize}
-		\item Be a concrete class that implements the generic GameEngine interface from the engine runtime api
-		with the proper bot interface defined in the game api being its type parameter.
+		\item Be a concrete class that implements the generic \code{GameEngine} interface from the engine runtime api, with the proper bot interface defined in the game api being its type parameter.
 		
 		\item Have a public constructor that takes either one or two instances of the previously mentioned bot 
 		interface as parameters, based on weather the game is a challenge or a match.
 		
-		\item Have the realised playGame method return an instance of ChallengeResult or MatchResult based on 
-		weather the game is a challenge or a match.
+		\item Have the realised \code{playGame} method return an instance of \code{ChallengeResult} or \code{MatchResult} based on whether the game is a challenge or a match.
 	\end{itemize} 
 	
-	However, in engine runtime api two abstract classes are also defined to help (type-safe) game engine development, namely ChallengeGameEngine and DuelGameEngine.
+	However, in the engine runtime api two abstract classes are also defined to help (type-safe) game engine development, namely \code{ChallengeGameEngine} and \code{DuelGameEngine}.
 	
-	A game engine is able to log messages during a game for both itself and the playing bot(s) as well. It can do so by acquiring a GameEngineLogger instance either using the EngineLoggerFactory's static getLogger method or if already extending one of the aforementioned abstract helpers, through its logger protected member.  
+	A game engine is able to log messages during a game for both itself and the playing bot(s) as well. It can do so, by acquiring a \code{GameEngineLogger} instance either using the \code{EngineLoggerFactory}'s static \code{getLogger} method, or if already extending one of the aforementioned abstract helpers, through its \code{logger} protected member.  
 	
 		\subsection*{ChallengeGameEngine}
 		
-		ChallengeGameEngine is an abstract class that ensures proper return type (ChallengeResult) while also providing helper methods for easier result creation and logging.
+		\code{ChallengeGameEngine} is an abstract class that ensures a proper return type (\code{ChallengeResult}), while also providing helper methods for easier result creation and logging.
 		
 		\subsection*{DuelGameEngine}
 		
-		Much like ChallengeGameEngine, DuelGameEngine is also an abstract helper with proper result safety, logging and result creation helpers, however it also implements a basic turn-based logic. Its extender only has to define the mechanism of a turn of the game, while keeping track of the active player is being taken care of.
+		Much like \code{ChallengeGameEngine}, \code{DuelGameEngine} is also an abstract helper with proper result safety, logging, and result creation helpers; however, it also implements a basic turn-based logic. Its extender only has to define the mechanism for game initialization and one for a single turn of the game, keeping track of the active player is being taken care of.
 		
 		\subsection*{Other classes}
 		
-		The library can contain any other classes that help the engine work, such as inner types or utilities that it wishes not to share with the bots.
+		The library can contain any other classes that help the engine work, such as inner types, or utilities that it wishes not to share with the bots.
 
 	\section{Bot}
 	
-	Bots are created as libraries that contain a concrete implementation of the specific game's bot interface and have a public, no-argument constructor. The bot library may contain other helpers and utilities as well.
+	Bots are created as libraries that contain a concrete implementation of the specific game's bot interface, and have a public, no-argument constructor. The bot library may contain other helpers and utilities as well.
 
-	Much like game engines, bots can log messages during matches, however they can only send these to themselves (so only their creator can view them). To create log entries with a bot, a GameBotLogger instance is needed. A bot can access one using the BotLoggerFactory's static getLogger method.
+	Much like game engines, bots can log messages during matches; however, they can only send these to themselves (so only their creator can view them). To create log entries with a bot, a \code{GameBotLogger} instance is needed. A bot can access one using the \code{BotLoggerFactory}'s static \code{getLogger} method.
 
 %\end{document}
 
