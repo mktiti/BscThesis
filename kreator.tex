@@ -47,7 +47,7 @@
 
 Parallel to the development of the main project --- and in coordination with it ---, I have started working on a framework to allow well-integrated dependency injection for kotlin.
 
-Although solutions of varying functionality and quality have existed for years --- such as Kodein or KOIN for kotlin, and many others for the jvm in general ---, I have found them not to work in accordance of how I would prefer such a library or framework to behave.
+Although solutions of varying functionality and quality have existed for years --- such as Kodein~\cite{Kodein} or KOIN~\cite{KOIN} for kotlin, and many others for the jvm in general~\cite{JavaCdi} ---, I have found them not to work in accordance of how I would prefer such a library or framework to behave.
 
 	\section{Introduction}
 	
@@ -55,7 +55,7 @@ Although solutions of varying functionality and quality have existed for years -
 	
 		\subsection*{Types of injection}
 		
-		Conventionally, dependency injection is separated into three main types: \emph{constructor-}, \emph{setter-}, and \emph{interface injection}. These cover most of the options commonly used in the java word, but --- while using for-java libraries is possible, --- due to more powerful language capabilities, solutions in the kotlin ecosystem use different methods. The most important features of kotlin that endorse different patterns are strong immutability support (\code{val}), simplified 'setter constructor' definition --- both incentivizing an in-constructor initialization of dependencies --- and first class singleton support (\code{object}), which allows for easier programmatic injection. Setter- and interface injection is, of course, still possible (through nullable or \code{lateinit} properties), but result in a reduction of code quality.
+		Conventionally, dependency injection is separated into three main types: \emph{constructor-}, \emph{setter-}, and \emph{interface injection}~\cite{DiTypes}. These cover most of the options commonly used in the java word, but --- while using for-java libraries is possible, --- due to more powerful language capabilities, solutions in the kotlin ecosystem use different methods. The most important features of kotlin that endorse different patterns are strong immutability support (\code{val}), simplified 'setter constructor' definition --- both incentivizing an in-constructor initialization of dependencies --- and first class singleton support (\code{object}), which allows for easier programmatic injection. Setter- and interface injection is, of course, still possible (through nullable or \code{lateinit} properties), but result in a reduction of code quality.
 		
 		\subsection*{Categorization}
 	
@@ -70,7 +70,7 @@ Although solutions of varying functionality and quality have existed for years -
 		I have focused on supporting constructor injection, because as it allows for easy non-nullable, immutable dependency properties, it is the best type of injection. To achieve this, Kreator is heavily based on kotlin's default method parameters, which allow passing dependencies manually, or falling back to injection. The main design principle is that all components (classes) should take their dependencies as constructor parameters --- usually with the type of their provided service interface, and usually using kotlin's unified constructor-property definition construct ---, and provide default values for them via the injector functions. It is also an important thing that subtypes of classes shall have constructor parameters for their parents' constructor parameters as well (with default injection) to keep manual dependency passing possible. This is unfortunately easy to forget when extending a component, but is necessary to enable passing dependecies transitively. This design makes kreator a fairly "magic-free" framework, where resource declarations are transparent and injection is cleanly done.
 		
 		\begin{center}
-				\begin{minipage}{12cm}
+				\begin{minipage}{14cm}
 		\begin{lstlisting}[language=Kotlin, title={\code{userService.kt}}]
 	  open class UserService(
 		  private val userRepo: UserRepo = inject(),
@@ -172,7 +172,7 @@ Although solutions of varying functionality and quality have existed for years -
 	
 	\section{Resource declaration}
 	
-	In contrast to some DI frameworks (such as most declarative ones, including java CDI) not all classes that comply with some rules (e.g. having no-arg constructors) are automatically eligible for injection. As more common in programmatic systems, resources must be marked explicitly as injectable --- but using annotations.
+	In contrast to some DI frameworks (such as most declarative ones, including java CDI~\cite{CdiInjectable}) not all classes that comply with some rules (e.g. having no-arg constructors) are automatically eligible for injection. As more common in programmatic systems, resources must be marked explicitly as injectable --- but using annotations.
 	The four annotations associated with resource declaration are \code{InjectableType}, \code{Injectable}, \code{TestInjectable}, and \code{NotInjectableFor}.
 
 		\paragraph{\code{InjetableType}} This annotation marks types that act as a target for injection. It is intended to be used on interfaces that define the behavior of a type of services.
@@ -196,7 +196,7 @@ Although solutions of varying functionality and quality have existed for years -
 	This system is relied on by the main project for environment dependent configuration of the data source, runtime actor handlers, test games, and test data manager scripts.
 	
 		\begin{center}
-			\begin{minipage}{12cm}
+			\begin{minipage}{13cm}
 		\begin{lstlisting}[language=Java, title={\emph{Sample config} -- \code{tulkas.conf}}]
 	Client {
 		Log {
@@ -232,7 +232,7 @@ Although solutions of varying functionality and quality have existed for years -
 		\end{center}
 		
 		\begin{center}
-			\begin{minipage}{13cm}
+			\begin{minipage}{14cm}
 		\begin{lstlisting}[language=Kotlin, title={\emph{Example usage} -- \code{dbConnection.kt}}]
 	@InjectableType
 	interface ConnectionSource {
@@ -240,7 +240,7 @@ Although solutions of varying functionality and quality have existed for years -
 	}
 
 	@Injectable(
-		arity = SINGLETON_AUTOSTART, default = true, tags = ["jdbc"]
+		arity=SINGLETON_AUTOSTART, default=true, tags=["jdbc"]
 	)
 	class JdbcConnectionSource(
 		driverClass: String
@@ -265,7 +265,7 @@ Although solutions of varying functionality and quality have existed for years -
 	
 	\section{Project structure}
 	
-	Kreator is separated into four modules all targeting their respective jar files -- \emph{annotation}, \emph{api}, \emph{core}, and \emph{property}.
+	Kreator is structured as a maven project and is separated into four modules all targeting their respective jar files -- \emph{annotation}, \emph{api}, \emph{core}, and \emph{property}.
 	
 	\paragraph{Annotation} contains necessary types for resource declaration, it is a very minimal library that can be used by any frameworks or libraries that wish to provide optional kreator--based injection support. It only contains declarative parts, therefore if a dependency of a program is built on it, but the program itself decides not to use kreator, no disadvantage will happen.
 	
@@ -274,6 +274,8 @@ Although solutions of varying functionality and quality have existed for years -
 	\paragraph{Core} includes the default implementation of the implementation logic defined by \emph{api} and is necessary for injection.
 	
 	\paragraph{Property} defines and implements all the aforementioned property configuration capabilities.
+	
+	The project is available as free software on github~\cite{Kreator}.	
 	
 %\end{document}
 

@@ -1,0 +1,54 @@
+\BOOKMARK [0][-]{chapter*.2}{Kivonat}{}% 1
+\BOOKMARK [0][-]{chapter*.3}{Abstract}{}% 2
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}% 3
+\BOOKMARK [1][-]{section.1.1}{Learning programming}{chapter.1}% 4
+\BOOKMARK [1][-]{section.1.2}{Recreational programming}{chapter.1}% 5
+\BOOKMARK [1][-]{section.1.3}{Goal of the project}{chapter.1}% 6
+\BOOKMARK [0][-]{chapter.2}{Game Model}{}% 7
+\BOOKMARK [1][-]{section.2.1}{Game API}{chapter.2}% 8
+\BOOKMARK [1][-]{section.2.2}{Game engine}{chapter.2}% 9
+\BOOKMARK [1][-]{section.2.3}{Bot}{chapter.2}% 10
+\BOOKMARK [0][-]{chapter.3}{Environment}{}% 11
+\BOOKMARK [1][-]{section.3.1}{Database}{chapter.3}% 12
+\BOOKMARK [1][-]{section.3.2}{Web backend}{chapter.3}% 13
+\BOOKMARK [1][-]{section.3.3}{Java Security Architecture}{chapter.3}% 14
+\BOOKMARK [2][-]{subsection.3.3.1}{Access control}{section.3.3}% 15
+\BOOKMARK [2][-]{subsection.3.3.2}{Security policy}{section.3.3}% 16
+\BOOKMARK [2][-]{subsection.3.3.3}{Limitations}{section.3.3}% 17
+\BOOKMARK [0][-]{chapter.4}{Runtime Architecture}{}% 18
+\BOOKMARK [1][-]{section.4.1}{Runtime model}{chapter.4}% 19
+\BOOKMARK [1][-]{section.4.2}{Runtime handler}{chapter.4}% 20
+\BOOKMARK [1][-]{section.4.3}{Actor client runtimes}{chapter.4}% 21
+\BOOKMARK [1][-]{section.4.4}{Communication model}{chapter.4}% 22
+\BOOKMARK [0][-]{chapter.5}{Runtime Implementation}{}% 23
+\BOOKMARK [1][-]{section.5.1}{Messaging}{chapter.5}% 24
+\BOOKMARK [2][-]{subsection.5.1.1}{Format}{section.5.1}% 25
+\BOOKMARK [2][-]{subsection.5.1.2}{Conversion and serialization}{section.5.1}% 26
+\BOOKMARK [2][-]{subsection.5.1.3}{Communication}{section.5.1}% 27
+\BOOKMARK [1][-]{section.5.2}{Runtime handler}{chapter.5}% 28
+\BOOKMARK [2][-]{subsection.5.2.1}{Control handler}{section.5.2}% 29
+\BOOKMARK [2][-]{subsection.5.2.2}{Actor handler}{section.5.2}% 30
+\BOOKMARK [1][-]{section.5.3}{Actor runtime}{chapter.5}% 31
+\BOOKMARK [2][-]{subsection.5.3.1}{Base client}{section.5.3}% 32
+\BOOKMARK [0][-]{chapter.6}{Kreator}{}% 33
+\BOOKMARK [1][-]{section.6.1}{Introduction}{chapter.6}% 34
+\BOOKMARK [1][-]{section.6.2}{Design}{chapter.6}% 35
+\BOOKMARK [1][-]{section.6.3}{Injection qualifiers}{chapter.6}% 36
+\BOOKMARK [1][-]{section.6.4}{Resource declaration}{chapter.6}% 37
+\BOOKMARK [1][-]{section.6.5}{Property injection}{chapter.6}% 38
+\BOOKMARK [1][-]{section.6.6}{Project structure}{chapter.6}% 39
+\BOOKMARK [0][-]{chapter.7}{Example game: Battleship}{}% 40
+\BOOKMARK [1][-]{section.7.1}{Design}{chapter.7}% 41
+\BOOKMARK [1][-]{section.7.2}{Game API}{chapter.7}% 42
+\BOOKMARK [2][-]{subsection.7.2.1}{Domain classes}{section.7.2}% 43
+\BOOKMARK [2][-]{subsection.7.2.2}{Bot interface}{section.7.2}% 44
+\BOOKMARK [2][-]{subsection.7.2.3}{Utility}{section.7.2}% 45
+\BOOKMARK [1][-]{section.7.3}{Engine}{chapter.7}% 46
+\BOOKMARK [1][-]{section.7.4}{Random bot}{chapter.7}% 47
+\BOOKMARK [1][-]{section.7.5}{A smarter bot}{chapter.7}% 48
+\BOOKMARK [0][-]{chapter.8}{Managment framework}{}% 49
+\BOOKMARK [1][-]{section.8.1}{Persistence}{chapter.8}% 50
+\BOOKMARK [1][-]{section.8.2}{Game management}{chapter.8}% 51
+\BOOKMARK [1][-]{section.8.3}{Web interface}{chapter.8}% 52
+\BOOKMARK [0][-]{chapter*.76}{K\366sz\366netnyilv\341n\355t\341s}{}% 53
+\BOOKMARK [0][-]{chapter*.77}{Bibliography}{}% 54

@@ -42,24 +42,24 @@ The system targets the Java Virtual Machine, and is therefore reliant on its fea
 
 	\section{Web backend}
 	
-	
+	The supporting web application is based on the standard Java SE ecosystem as a standalone kotlin application. It uses a RESTful API between the JAX-RS defined backend and the SPA-based frontend.
 
 	\section{Java Security Architecture}
 	
 	Since its early versions, the java platform has had built-in security measures to protect valuable resources, while also providing the ability to execute untrusted code. The original purpose of this was to allow safe usage of unsafe web applets, which have since largely disappeared due to technological change. However, the java security model has remained in the language specification nonetheless, and through two main iterations have reached its current form in java 2 (formerly known as java 1.2).
 	
-	The current model allows the jvm to separately manage different code bases, all with their own unique set of permissions. These code units are loaded by one of possibly multiple classloaders, either from a local source, from a remote path, or whatever custom logic the specific classloader supports. It is also this classloader that assigns an appropriate identifier to these code collectives based on which permissions can be granted to them.
+	The current model~\cite{JavaSandbox} allows the jvm to separately manage different code bases, all with their own unique set of permissions. These code units are loaded by one of possibly multiple classloaders, either from a local source, from a remote path, or whatever custom logic the specific classloader supports. It is also this classloader that assigns an appropriate identifier to these code collectives based on which permissions can be granted to them.
 	
 	\subsection{Access control}
 	
 	Access control is done by a security manager, which can be installed either programmatically or via a jvm startup argument. It is the job of this security manager instance then to check whether an action shall be allowed to happen in a given execution context. These permission checks are initiated by low level java APIs, such as I/O access methods or threading primitives; and include a vast number of different actions, such as specific file operations, configuration access, networking procedures, or replacing the active security settings (including the security manager itself). While the security manager can be customized to deal with these requests in an arbitrary way programmatically, it is usually easier to configure separate policy settings to the different code sources, and allow the default security manager to use these settings for access authorization.
 	
-	The standard way of permission control is based on code sources and their respective set of permissions. At the points of an access check (e.g. reading from a file or creating a network socket), the default security manager delegates the request to the built-in \code{AccessController}. That in turn first creates a view of the current security context represented by a call stack, where each frame is assigned the set of permissions of its code (based on the code source the called method is located in). Then the controller iterates through the stack and only allows the request to go through, if all frames would allow the request in isolation.
+	The standard way of permission control is based on code sources and their respective set of permissions~\cite{JavaAccessControl}. At the points of an access check (e.g. reading from a file or creating a network socket), the default security manager delegates the request to the built-in \code{AccessController}. That in turn first creates a view of the current security context represented by a call stack, where each frame is assigned the set of permissions of its code (based on the code source the called method is located in). Then the controller iterates through the stack and only allows the request to go through, if all frames would allow the request in isolation.
 	
 	This behavior can be modified using the controller's set of \code{doPrivileged} methods that allows code to be executed if it would be allowed to run on its on right, effectively cutting the stack off under the specific method. This allows trusted code to provide operations on guarded resources to their untrusted counterparts. An example this might be useful for, is when a file should be kept secret from an untrusted method, however some properties (e.g. number of lines) of that same file should be allowed to be accessed. In this example, a trusted method could be written which reads the file and only returns the required property (line count). If this line counter method uses the access controller's privileged execution, then it would be allowed to be used from the original, untrusted code block without security exceptions being thrown, and the file to become fully accessible from there.
 
 	\begin{center}
-		\begin{minipage}{11cm}
+		\begin{minipage}{12cm}
 		\begin{lstlisting}[title={\code{Trusted.kt}}]
 	object Trusted {
 		fun guardedLineCount(): Int {
@@ -83,7 +83,7 @@ The system targets the Java Virtual Machine, and is therefore reliant on its fea
 
 	\subsection{Security policy}
 	
-	Assigning permissions to the different code sources can be done programmatically at load time using the classloader, or in a declarative way via a policy file. A policy file contains a set of rules that define a list of permissions to be granted to code sources satisfying a set of selectors. These selectors can filter based on the identifier of the code source; whether it was cryptographically signed by someone; and if it was, by whom was it signed by; or what organization (\code{Principal}) does it belong to.
+	Assigning permissions to the different code sources can be done programmatically at load time using the classloader, or in a declarative way via a policy file~\cite{JavaPermissionsPolicy}. A policy file contains a set of rules that define a list of permissions to be granted to code sources satisfying a set of selectors. These selectors can filter based on the identifier of the code source; whether it was cryptographically signed by someone; and if it was, by whom was it signed by; or what organization (\code{Principal}) does it belong to.
 	
 	The enforced policy file can be set much like the security manager, either programmatically or through a jvm argument. 
 

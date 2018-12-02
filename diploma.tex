@@ -1,6 +1,9 @@
 \documentclass[12pt,a4paper,oneside]{report}             % Single-side
 %\documentclass[11pt,a4paper,twoside,openright]{report}  % Duplex
 
+\usepackage[backend=biber]{biblatex}
+\addbibresource{mybib.bib}
+
 %\PassOptionsToPackage{chapternumber=Huordinal}{magyar.ldf}
 %\usepackage[magyar]{babel}
 \usepackage[utf8]{inputenc}
@@ -30,6 +33,7 @@
 \usepackage{changepage}
 
 \usepackage{setspace}
+\usepackage[htt]{hyphenat}
 
 \usetikzlibrary{arrows, positioning, shapes.symbols, shapes.callouts, patterns, calc, automata}
 
@@ -117,7 +121,7 @@
   emph={delegate, filter, first, firstOrNull, forEach, lazy, map, mapNotNull, println, return@},
   emphstyle={\color{OrangeRed}},
   identifierstyle=\color{black},
-  keywords={abstract, actual, as, as?, break, by, class, companion, continue, data, do, dynamic, else, enum, expect, false, final, for, fun, get, if, import, in, interface, internal, is, null, object, override, package, private, public, return, set, super, suspend, this, throw, true, try, typealias, val, var, vararg, when, where, while},
+  keywords={operator, init, open, abstract, actual, as, as?, break, by, class, companion, continue, data, do, dynamic, else, enum, expect, false, final, for, fun, get, if, import, in, interface, internal, is, null, object, override, package, private, public, return, set, super, suspend, this, throw, true, try, typealias, val, var, vararg, when, where, while},
   keywordstyle={\color{NavyBlue}\bfseries},
   morecomment=[s]{/*}{*/},
   morestring=[b]",
@@ -220,10 +224,8 @@
 %\listoffigures\addcontentsline{toc}{chapter}{Ábrák jegyzéke}
 %\listoftables\addcontentsline{toc}{chapter}{Táblázatok jegyzéke}
 
-\bibliography{mybib}
-\addcontentsline{toc}{chapter}{Irodalomjegyzék}
-\bibliographystyle{plain}
-
+\printbibliography
+\addcontentsline{toc}{chapter}{Bibliography}
 %\include{appendices}
 
 \label{page:last}
