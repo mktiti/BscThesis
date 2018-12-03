@@ -14,7 +14,7 @@
 
 Running games require the execution of untrusted code --- in form of both the game engine and the bots --- in a safe manner, which is complex task.
 
-The limitations of java's security error handling make the jvm unable to provide a platform where a whole game --- all of the actors and client runtimes --- can be run as a single process. Therefore separate java processes are necessary to achieve a safe runtime environment. 
+The limitations of java's security error handling make the JVM unable to provide a platform where a whole game --- all of the actors and client runtimes --- can be run as a single process. Therefore separate java processes are necessary to achieve a safe runtime environment. 
 
 	\section{Runtime model}
 	
@@ -37,7 +37,7 @@ The limitations of java's security error handling make the jvm unable to provide
 		\item Report the result of the game, whether the engine reported a 'normal' finish or some error occurred.  
 	\end{itemize}
 	
-	The handler is a library which can be used from other jvm-based programs, as it exposes functions to run games using provided actors.
+	The handler is a library which can be used from other JVM-based programs, as it exposes functions to run games using provided actors.
 	
 	\section{Actor client runtimes}
 	

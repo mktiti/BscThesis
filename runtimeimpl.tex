@@ -122,7 +122,7 @@
 		
 			Conversion is the process during which domain representation of a message in the form of a \code{Message} object is converted into an intermediate state as it gets ready to be sent. Its result is a \code{MessageDTO}, an object which holds the same header the original message did, but has its payload --- if any were present --- transformed into a processable, base 64 encoded string representation. Deconversion is its inverse operation. It is a distinct process from the general serialization of messages, as to ensure independence between the algorithms used in the two processes.
 			
-			This loose coupling is beneficial, as conversion is an unsafe routine that only actor clients should conduct. Message (de)conversion is required when dealing with remote proxy calls, and this breakup of concerns allows the runtime handler to parse and route a call request or call result message without attempting to decode its payload, which contains jvm objects as transformed by standard java serialization. As object (de)serialization is dangerous --- due to the construction of arbitrary large serialization 'bombs' ---, it is best to pass these messages to the actor clients who are equipped with proper security measures to safely minister it.
+			This loose coupling is beneficial, as conversion is an unsafe routine that only actor clients should conduct. Message (de)conversion is required when dealing with remote proxy calls, and this breakup of concerns allows the runtime handler to parse and route a call request or call result message without attempting to decode its payload, which contains JVM objects as transformed by standard java serialization. As object (de)serialization is dangerous --- due to the construction of arbitrary large serialization 'bombs' ---, it is best to pass these messages to the actor clients who are equipped with proper security measures to safely minister it.
 
 			\paragraph{Serialization and Deserialization}
 			
@@ -458,7 +458,7 @@
 		
 			The most important job of all actor clients is the provision of a safe runtime environment where the actor's and the game api's inherently untrusted code may be executed. This is supported by the standard solutions provided by the java virtual machine. The heart of guarding valuable resources (such as files or \mbox{I/O} capabilities), is the strict separation of safe- and unsafe code with their respective permissions assigned.
 			
-			Safe code is constituted by all the sources of the runtime client and its dependencies, such as java libraries used --- effectively the whole codebase of the runtime. This partition is granted all possible permissions using a policy file, which is --- with the enforcing security manager --- put into effect via program arguments passed to the jvm.
+			Safe code is constituted by all the sources of the runtime client and its dependencies, such as java libraries used --- effectively the whole codebase of the runtime. This partition is granted all possible permissions using a policy file, which is --- with the enforcing security manager --- put into effect via program arguments passed to the JVM.
 
 			\begin{center}
 				\begin{minipage}{11cm}

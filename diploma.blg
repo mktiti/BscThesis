@@ -1,15 +1,15 @@
 [0] Config.pm:302> INFO - This is Biber 2.9
 [0] Config.pm:305> INFO - Logfile is 'diploma.blg'
-[22] biber:313> INFO - === v dec  2, 2018, 23:28:24
-[39] Biber.pm:371> INFO - Reading 'diploma.bcf'
-[90] Biber.pm:857> INFO - Found 11 citekeys in bib section 0
-[104] Biber.pm:3981> INFO - Processing section 0
-[113] Biber.pm:4154> INFO - Looking for bibtex format file 'mybib.bib' for section 0
-[114] bibtex.pm:1468> INFO - LaTeX decoding ...
-[123] bibtex.pm:1294> INFO - Found BibTeX data source 'mybib.bib'
-[202] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[203] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[203] Biber.pm:3809> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-US'
-[203] Biber.pm:3815> INFO - No sort tailoring available for locale 'en-US'
-[217] bbl.pm:617> INFO - Writing 'diploma.bbl' with encoding 'UTF-8'
-[223] bbl.pm:720> INFO - Output to diploma.bbl
+[21] biber:313> INFO - === h dec  3, 2018, 23:46:47
+[38] Biber.pm:371> INFO - Reading 'diploma.bcf'
+[85] Biber.pm:857> INFO - Found 10 citekeys in bib section 0
+[98] Biber.pm:3981> INFO - Processing section 0
+[106] Biber.pm:4154> INFO - Looking for bibtex format file 'mybib.bib' for section 0
+[107] bibtex.pm:1468> INFO - LaTeX decoding ...
+[115] bibtex.pm:1294> INFO - Found BibTeX data source 'mybib.bib'
+[155] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[155] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[155] Biber.pm:3809> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[156] Biber.pm:3815> INFO - No sort tailoring available for locale 'en-US'
+[161] bbl.pm:617> INFO - Writing 'diploma.bbl' with encoding 'UTF-8'
+[163] bbl.pm:720> INFO - Output to diploma.bbl

@@ -34,7 +34,7 @@
 
 The backend system is written completely in the kotlin programming language with the exception of the game- and engine runtime APIs, which are written in java to allow game and bot development to happen also in java without unnecessary dependencies.
 
-The system targets the Java Virtual Machine, and is therefore reliant on its features, such as OS independence and security. Despite being a primarily server side application, the system is not powered by Java Enterprise Edition, but the more accessible Java Standard Edition (version 8).
+The system targets the Java Virtual Machine, and is therefore reliant on its features, such as OS independence and security. Despite being a primarily server side application, the system is not powered by Java Enterprise Edition, but the more accessible Java Standard Edition (version 9).
 
 	\section{Database}
  
@@ -48,11 +48,11 @@ The system targets the Java Virtual Machine, and is therefore reliant on its fea
 	
 	Since its early versions, the java platform has had built-in security measures to protect valuable resources, while also providing the ability to execute untrusted code. The original purpose of this was to allow safe usage of unsafe web applets, which have since largely disappeared due to technological change. However, the java security model has remained in the language specification nonetheless, and through two main iterations have reached its current form in java 2 (formerly known as java 1.2).
 	
-	The current model~\cite{JavaSandbox} allows the jvm to separately manage different code bases, all with their own unique set of permissions. These code units are loaded by one of possibly multiple classloaders, either from a local source, from a remote path, or whatever custom logic the specific classloader supports. It is also this classloader that assigns an appropriate identifier to these code collectives based on which permissions can be granted to them.
+	The current model~\cite{JavaSandbox} allows the JVM to separately manage different code bases, all with their own unique set of permissions. These code units are loaded by one of possibly multiple classloaders, either from a local source, from a remote path, or whatever custom logic the specific classloader supports. It is also this classloader that assigns an appropriate identifier to these code collectives based on which permissions can be granted to them.
 	
 	\subsection{Access control}
 	
-	Access control is done by a security manager, which can be installed either programmatically or via a jvm startup argument. It is the job of this security manager instance then to check whether an action shall be allowed to happen in a given execution context. These permission checks are initiated by low level java APIs, such as I/O access methods or threading primitives; and include a vast number of different actions, such as specific file operations, configuration access, networking procedures, or replacing the active security settings (including the security manager itself). While the security manager can be customized to deal with these requests in an arbitrary way programmatically, it is usually easier to configure separate policy settings to the different code sources, and allow the default security manager to use these settings for access authorization.
+	Access control is done by a security manager, which can be installed either programmatically or via a JVM startup argument. It is the job of this security manager instance then to check whether an action shall be allowed to happen in a given execution context. These permission checks are initiated by low level java APIs, such as I/O access methods or threading primitives; and include a vast number of different actions, such as specific file operations, configuration access, networking procedures, or replacing the active security settings (including the security manager itself). While the security manager can be customized to deal with these requests in an arbitrary way programmatically, it is usually easier to configure separate policy settings to the different code sources, and allow the default security manager to use these settings for access authorization.
 	
 	The standard way of permission control is based on code sources and their respective set of permissions~\cite{JavaAccessControl}. At the points of an access check (e.g. reading from a file or creating a network socket), the default security manager delegates the request to the built-in \code{AccessController}. That in turn first creates a view of the current security context represented by a call stack, where each frame is assigned the set of permissions of its code (based on the code source the called method is located in). Then the controller iterates through the stack and only allows the request to go through, if all frames would allow the request in isolation.
 	
@@ -85,13 +85,17 @@ The system targets the Java Virtual Machine, and is therefore reliant on its fea
 	
 	Assigning permissions to the different code sources can be done programmatically at load time using the classloader, or in a declarative way via a policy file~\cite{JavaPermissionsPolicy}. A policy file contains a set of rules that define a list of permissions to be granted to code sources satisfying a set of selectors. These selectors can filter based on the identifier of the code source; whether it was cryptographically signed by someone; and if it was, by whom was it signed by; or what organization (\code{Principal}) does it belong to.
 	
-	The enforced policy file can be set much like the security manager, either programmatically or through a jvm argument. 
+	The enforced policy file can be set much like the security manager, either programmatically or through a JVM argument. 
 
 	\subsection{Limitations}
 	
-	While the jvm has good facilities to protect resources and guard certain operations, it is not equipped to resolve all possible exploits which may be caused by untrusted code. Due to java's shared-heap based memory model, the jvm is inherently incapable of providing thread-based protection against deliberate or accidental causes of out of memory errors.
+	While the JVM has good facilities to protect resources and guard certain operations, it is not equipped to resolve all possible exploits which may be caused by untrusted code. Due to java's shared-heap based memory model, the JVM is inherently incapable of providing thread-based protection against deliberate or accidental causes of out of memory errors.
 	
-	Furthermore, since errors --- as opposed to exceptions --- are not necessarily catchable (as they usually signal unrecoverable mishaps), it would not be possible to reliably log which actor caused a crash. That would be particularly unfortunate in the case of matches, where one bot could cause any game to result in an error and the sinner would not be detectable.  
+	Furthermore, since errors --- as opposed to exceptions --- are not necessarily catchable (as they usually signal unrecoverable mishaps), it would not be possible to reliably log which actor caused a crash. That would be particularly unfortunate in the case of matches, where one bot could cause any game to result in an error and the sinner would not be detectable.
+
+	These limitations make it necessary to take the actors --- and their handlers --- out of the common java runtime, and place them into separate JVMs. This then can defend against out-of-memory style-, and other unavoidable errors. In this case, the virtual machines are simply allowed to crash as a result of the errors, because their failure leaves the rest of the system unaffected. If such crash happens, the runtime will be notified through the cessation of communication with it, and it can react in an appropriate manner.
+	
+	However, limiting the instances memory capacity and CPU time is still crucial, as burning through any of them may result in errors being thrown in another JVM instance. Fortunately, these can be managed either through JVM-internal settings (maxium memory limit through the \code{-XmX} flag) or through OS utilities (CPU time limiting using the process' "nice" value, or through cgroups). These measures are set up by the starting scripts initializing the handlers.
 
 %\end{document}
 

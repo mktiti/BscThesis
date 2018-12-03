@@ -33,7 +33,6 @@
 \usepackage{changepage}
 
 \usepackage{setspace}
-\usepackage[htt]{hyphenat}
 
 \usetikzlibrary{arrows, positioning, shapes.symbols, shapes.callouts, patterns, calc, automata}
 
@@ -165,7 +164,6 @@
 	declaration,%
 	abstract,%
 	intro,%
-	terminology,%
 	gamemodel,%
 	environment,%
 	runtimearch,%
@@ -175,6 +173,7 @@
 	web,%
 	%evalutaion,%
 	%summary,%
+	terminology,%
 	acknowledgement,%
 	appendices%
 }
@@ -192,6 +191,11 @@
 %\renewcommand{\captionlabelfont}{\small\bf}
 %\renewcommand{\captionfont}{\footnotesize\it}
 
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
 %--------------------------------------------------------------------------------------
 % Table of contents and the main text
 %--------------------------------------------------------------------------------------
@@ -207,7 +211,6 @@
 \include{declaration}
 \include{abstract}
 \include{intro}
-\include{terminology}
 \include{gamemodel}
 
 \include{environment}
@@ -219,10 +222,8 @@
 \include{example}
 \include{web}
 
+\include{terminology}
 \include{acknowledgement}
-
-%\listoffigures\addcontentsline{toc}{chapter}{Ábrák jegyzéke}
-%\listoftables\addcontentsline{toc}{chapter}{Táblázatok jegyzéke}
 
 \printbibliography
 \addcontentsline{toc}{chapter}{Bibliography}

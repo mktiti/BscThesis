@@ -88,29 +88,6 @@
       \field{urlyear}{2018}
       \field{urldateera}{ce}
     \endentry
-    \entry{Tulkas}{misc}{}
-      \name{author}{1}{}{%
-        {{hash=5c5abcc339bca247f8ee80d19f71a9fe}{%
-           family={{Márkus Krisztián}},
-           familyi={M\bibinitperiod}}}%
-      }
-      \strng{namehash}{5c5abcc339bca247f8ee80d19f71a9fe}
-      \strng{fullhash}{5c5abcc339bca247f8ee80d19f71a9fe}
-      \strng{bibnamehash}{5c5abcc339bca247f8ee80d19f71a9fe}
-      \strng{authorbibnamehash}{5c5abcc339bca247f8ee80d19f71a9fe}
-      \strng{authornamehash}{5c5abcc339bca247f8ee80d19f71a9fe}
-      \strng{authorfullhash}{5c5abcc339bca247f8ee80d19f71a9fe}
-      \field{sortinit}{M}
-      \field{sortinithash}{cfd219b90152c06204fab207bc6c7cab}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://github.com/mktiti/Cirkus}}
-      \field{title}{{Tulkas}}
-      \field{urlday}{28}
-      \field{urlmonth}{11}
-      \field{urlyear}{2018}
-      \field{urldateera}{ce}
-    \endentry
     \entry{DiTypes}{misc}{}
       \name{author}{1}{}{%
         {{hash=3093c6b89d264f2a278fff73d35588c9}{%

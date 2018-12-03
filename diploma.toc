@@ -12,172 +12,174 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {1.3}Goal of the project}{7}{section.1.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Game}{8}{section*.5}
+\contentsline {chapter}{\numberline {2}Game Model}{8}{chapter.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Challenge}{8}{section*.6}
+\contentsline {section}{\numberline {2.1}Game API}{8}{section.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Match}{8}{section*.7}
+\contentsline {section}{\numberline {2.2}Game engine}{9}{section.2.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Game Runtime API}{8}{section*.8}
+\contentsline {section}{\numberline {2.3}Bot}{10}{section.2.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Engine Runtime API}{8}{section*.9}
+\contentsline {chapter}{\numberline {3}Environment}{11}{chapter.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{(Game) Engine}{8}{section*.10}
+\contentsline {section}{\numberline {3.1}Database}{11}{section.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Game API}{8}{section*.11}
+\contentsline {section}{\numberline {3.2}Web backend}{11}{section.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Bot interface}{9}{section*.12}
+\contentsline {section}{\numberline {3.3}Java Security Architecture}{11}{section.3.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Bot}{9}{section*.13}
+\contentsline {subsection}{\numberline {3.3.1}Access control}{12}{subsection.3.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Actor}{9}{section*.14}
+\contentsline {subsection}{\numberline {3.3.2}Security policy}{13}{subsection.3.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Actor client}{9}{section*.15}
+\contentsline {subsection}{\numberline {3.3.3}Limitations}{13}{subsection.3.3.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {2}Game Model}{10}{chapter.2}
+\contentsline {chapter}{\numberline {4}Runtime Architecture}{15}{chapter.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.1}Game API}{10}{section.2.1}
+\contentsline {section}{\numberline {4.1}Runtime model}{15}{section.4.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.2}Game engine}{11}{section.2.2}
+\contentsline {section}{\numberline {4.2}Runtime handler}{15}{section.4.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.3}Bot}{12}{section.2.3}
+\contentsline {section}{\numberline {4.3}Actor client runtimes}{16}{section.4.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {3}Environment}{13}{chapter.3}
+\contentsline {section}{\numberline {4.4}Communication model}{17}{section.4.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.1}Database}{13}{section.3.1}
+\contentsline {paragraph}{Start notice}{18}{section*.15}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.2}Web backend}{13}{section.3.2}
+\contentsline {paragraph}{Shutdown notice}{18}{section*.16}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.3}Java Security Architecture}{13}{section.3.3}
+\contentsline {paragraph}{Log entry}{18}{section*.17}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3.1}Access control}{14}{subsection.3.3.1}
+\contentsline {paragraph}{Error report}{18}{section*.18}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3.2}Security policy}{15}{subsection.3.3.2}
+\contentsline {paragraph}{Match result, Challenge result}{19}{section*.19}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3.3}Limitations}{15}{subsection.3.3.3}
+\contentsline {chapter}{\numberline {5}Runtime Implementation}{21}{chapter.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Runtime Architecture}{17}{chapter.4}
+\contentsline {section}{\numberline {5.1}Messaging}{21}{section.5.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.1}Runtime model}{17}{section.4.1}
+\contentsline {subsection}{\numberline {5.1.1}Format}{21}{subsection.5.1.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.2}Runtime handler}{17}{section.4.2}
+\contentsline {paragraph}{Type parameters and payload}{21}{section*.26}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.3}Actor client runtimes}{18}{section.4.3}
+\contentsline {subsection}{\numberline {5.1.2}Conversion and serialization}{22}{subsection.5.1.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.4}Communication model}{19}{section.4.4}
+\contentsline {paragraph}{Conversion and deconversion}{22}{section*.28}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Start notice}{20}{section*.27}
+\contentsline {paragraph}{Serialization and Deserialization}{23}{section*.29}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Shutdown notice}{20}{section*.28}
+\contentsline {subsection}{\numberline {5.1.3}Communication}{23}{subsection.5.1.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Log entry}{20}{section*.29}
+\contentsline {section}{\numberline {5.2}Runtime handler}{23}{section.5.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Error report}{20}{section*.30}
+\contentsline {subsection}{\numberline {5.2.1}Control handler}{24}{subsection.5.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Match result, Challenge result}{21}{section*.31}
+\contentsline {paragraph}{Game flow}{25}{section*.33}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Runtime Implementation}{23}{chapter.5}
+\contentsline {subsection}{\numberline {5.2.2}Actor handler}{26}{subsection.5.2.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.1}Messaging}{23}{section.5.1}
+\contentsline {section}{\numberline {5.3}Actor runtime}{27}{section.5.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.1.1}Format}{23}{subsection.5.1.1}
+\contentsline {subsection}{\numberline {5.3.1}Base client}{28}{subsection.5.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Type parameters and payload}{23}{section*.38}
+\contentsline {paragraph}{Engine client}{30}{section*.38}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.1.2}Conversion and serialization}{24}{subsection.5.1.2}
+\contentsline {paragraph}{Bot client}{30}{section*.39}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Conversion and deconversion}{24}{section*.40}
+\contentsline {chapter}{\numberline {6}Kreator}{31}{chapter.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Serialization and Deserialization}{25}{section*.41}
+\contentsline {section}{\numberline {6.1}Introduction}{31}{section.6.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.1.3}Communication}{25}{subsection.5.1.3}
+\contentsline {section}{\numberline {6.2}Design}{32}{section.6.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.2}Runtime handler}{25}{section.5.2}
+\contentsline {paragraph}{Standard injection}{33}{section*.43}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.2.1}Control handler}{26}{subsection.5.2.1}
+\contentsline {paragraph}{Optional injection}{34}{section*.44}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Game flow}{27}{section*.45}
+\contentsline {paragraph}{Any injection}{34}{section*.45}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.2.2}Actor handler}{28}{subsection.5.2.2}
+\contentsline {section}{\numberline {6.3}Injection qualifiers}{34}{section.6.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.3}Actor runtime}{29}{section.5.3}
+\contentsline {section}{\numberline {6.4}Resource declaration}{35}{section.6.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.3.1}Base client}{30}{subsection.5.3.1}
+\contentsline {paragraph}{\texttt {InjetableType}}{36}{section*.51}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Engine client}{32}{section*.50}
+\contentsline {paragraph}{\texttt {Injectable}, \texttt {TestInjectable}}{36}{section*.52}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Bot client}{32}{section*.51}
+\contentsline {paragraph}{\texttt {NotInjectableFor}}{36}{section*.53}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {6}Kreator}{33}{chapter.6}
+\contentsline {section}{\numberline {6.5}Property injection}{36}{section.6.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.1}Introduction}{33}{section.6.1}
+\contentsline {section}{\numberline {6.6}Project structure}{38}{section.6.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.2}Design}{34}{section.6.2}
+\contentsline {paragraph}{Annotation}{38}{section*.54}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Standard injection}{35}{section*.55}
+\contentsline {paragraph}{API}{38}{section*.55}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Optional injection}{36}{section*.56}
+\contentsline {paragraph}{Core}{39}{section*.56}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Any injection}{36}{section*.57}
+\contentsline {paragraph}{Property}{39}{section*.57}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.3}Injection qualifiers}{36}{section.6.3}
+\contentsline {chapter}{\numberline {7}Example game: Battleship}{40}{chapter.7}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.4}Resource declaration}{37}{section.6.4}
+\contentsline {section}{\numberline {7.1}Design}{41}{section.7.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\texttt {InjetableType}}{38}{section*.63}
+\contentsline {section}{\numberline {7.2}Game API}{41}{section.7.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\texttt {Injectable}, \texttt {TestInjectable}}{38}{section*.64}
+\contentsline {subsection}{\numberline {7.2.1}Domain classes}{41}{subsection.7.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\texttt {NotInjectableFor}}{38}{section*.65}
+\contentsline {paragraph}{\texttt {Position}}{42}{section*.59}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.5}Property injection}{38}{section.6.5}
+\contentsline {paragraph}{\texttt {Direction}}{42}{section*.60}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.6}Project structure}{40}{section.6.6}
+\contentsline {paragraph}{\texttt {Ship}}{42}{section*.61}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Annotation}{40}{section*.66}
+\contentsline {paragraph}{\texttt {ShootResult}}{42}{section*.62}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{API}{40}{section*.67}
+\contentsline {paragraph}{\texttt {TargetMap}}{42}{section*.63}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Core}{41}{section*.68}
+\contentsline {subsection}{\numberline {7.2.2}Bot interface}{42}{subsection.7.2.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Property}{41}{section*.69}
+\contentsline {subsection}{\numberline {7.2.3}Utility}{43}{subsection.7.2.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {7}Example game: Battleship}{42}{chapter.7}
+\contentsline {section}{\numberline {7.3}Engine}{43}{section.7.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.1}Design}{43}{section.7.1}
+\contentsline {section}{\numberline {7.4}Random bot}{43}{section.7.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.2}Game API}{43}{section.7.2}
+\contentsline {section}{\numberline {7.5}A smarter bot}{44}{section.7.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {7.2.1}Domain classes}{43}{subsection.7.2.1}
+\contentsline {chapter}{\numberline {8}Managment framework}{46}{chapter.8}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\texttt {Position}}{44}{section*.71}
+\contentsline {section}{\numberline {8.1}Persistence}{46}{section.8.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\texttt {Direction}}{44}{section*.72}
+\contentsline {section}{\numberline {8.2}Game management}{47}{section.8.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\texttt {Ship}}{44}{section*.73}
+\contentsline {section}{\numberline {8.3}Web interface}{47}{section.8.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\texttt {ShootResult}}{44}{section*.74}
+\contentsline {chapter}{Glossary}{50}{chapter*.66}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\texttt {TargetMap}}{44}{section*.75}
+\contentsline {paragraph}{Game}{50}{section*.67}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {7.2.2}Bot interface}{44}{subsection.7.2.2}
+\contentsline {paragraph}{Challenge}{50}{section*.68}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {7.2.3}Utility}{45}{subsection.7.2.3}
+\contentsline {paragraph}{Match}{50}{section*.69}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.3}Engine}{45}{section.7.3}
+\contentsline {paragraph}{Game Runtime API}{50}{section*.70}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.4}Random bot}{45}{section.7.4}
+\contentsline {paragraph}{Engine Runtime API}{50}{section*.71}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.5}A smarter bot}{46}{section.7.5}
+\contentsline {paragraph}{(Game) Engine}{50}{section*.72}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {8}Managment framework}{48}{chapter.8}
+\contentsline {paragraph}{Game API}{50}{section*.73}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {8.1}Persistence}{48}{section.8.1}
+\contentsline {paragraph}{Bot interface}{51}{section*.74}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {8.2}Game management}{49}{section.8.2}
+\contentsline {paragraph}{Bot}{51}{section*.75}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {8.3}Web interface}{49}{section.8.3}
+\contentsline {paragraph}{Actor}{51}{section*.76}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{K\IeC {\"o}sz\IeC {\"o}netnyilv\IeC {\'a}n\IeC {\'\i }t\IeC {\'a}s}{51}{chapter*.76}
+\contentsline {paragraph}{Actor client}{51}{section*.77}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{Bibliography}{52}{chapter*.77}
+\contentsline {chapter}{K\IeC {\"o}sz\IeC {\"o}netnyilv\IeC {\'a}n\IeC {\'\i }t\IeC {\'a}s}{52}{chapter*.78}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Bibliography}{53}{chapter*.79}

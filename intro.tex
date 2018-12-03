@@ -36,13 +36,19 @@
 
 	\section{Goal of the project}
 	
-	The goal of the project is to provide a safe runtime for untrusted programs that interact with each other on top of the jvm platform. This framework shall also allow the development of games/challenges and their bots in an easy to integrate and environment familiar way. These games should be able to effortlessly provide meaningful results which can then be processed by a user of the runtime.
+	The goal of the project is to provide a safe runtime for untrusted programs that interact with each other on top of the JVM platform. This framework shall also allow the development of games/challenges and their bots in an easy to integrate and environment familiar way. These games should be able to effortlessly provide meaningful results which can then be processed by a user of the runtime.
 	
 	The framework must allow the development of both single--, and two--player games so that it can satisfy the needs of both educational--, and recreational programming.
 	
 	The runtime must be integrateable into different projects and configured for diverse environments, but should also contain a default management interface for game and bot control. 
 
-	The project is available as free software on github~\cite{Tulkas}.
+	The outcome of the development should be a server-side backend application and its frontend counterpart. They are to allow the uploading of games and bots for these games. Through them users can browse games, bots, and their own bots' results.
+	
+	The functional core of the project is the secure runtime, which must enable the safe execution of untrusted programs, provide communication between them, handle the control flow, and report the result of each run.
+	
+	The backend shall use this framework as a library to execute matches and challenges between its managed bots. It handles game coordination, report generation, information provision for the frontend, and data persistence.
+	
+	The frontend is a simple web-app, that --- according to the end-users' need --- manages games and bots, and shows valueable information to the players about the games played.
 
 %\end{document}
 

@@ -1923,17 +1923,16 @@
     <bcf:datasource type="file" datatype="bibtex">mybib.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1">Tulkas</bcf:citekey>
-    <bcf:citekey order="2">JavaSandbox</bcf:citekey>
-    <bcf:citekey order="3">JavaAccessControl</bcf:citekey>
-    <bcf:citekey order="4">JavaPermissionsPolicy</bcf:citekey>
-    <bcf:citekey order="5">Kodein</bcf:citekey>
-    <bcf:citekey order="6">KOIN</bcf:citekey>
-    <bcf:citekey order="7">JavaCdi</bcf:citekey>
-    <bcf:citekey order="8">DiTypes</bcf:citekey>
-    <bcf:citekey order="9">CdiInjectable</bcf:citekey>
-    <bcf:citekey order="10">Kreator</bcf:citekey>
-    <bcf:citekey order="11">Battleship</bcf:citekey>
+    <bcf:citekey order="1">JavaSandbox</bcf:citekey>
+    <bcf:citekey order="2">JavaAccessControl</bcf:citekey>
+    <bcf:citekey order="3">JavaPermissionsPolicy</bcf:citekey>
+    <bcf:citekey order="4">Kodein</bcf:citekey>
+    <bcf:citekey order="5">KOIN</bcf:citekey>
+    <bcf:citekey order="6">JavaCdi</bcf:citekey>
+    <bcf:citekey order="7">DiTypes</bcf:citekey>
+    <bcf:citekey order="8">CdiInjectable</bcf:citekey>
+    <bcf:citekey order="9">Kreator</bcf:citekey>
+    <bcf:citekey order="10">Battleship</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">
