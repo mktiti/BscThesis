@@ -55,7 +55,7 @@ Although solutions of varying functionality and quality have existed for years -
 	
 		\subsection*{Types of injection}
 		
-		Conventionally, dependency injection is separated into three main types: \emph{constructor-}, \emph{setter-}, and \emph{interface injection}~\cite{DiTypes}. These cover most of the options commonly used in the java world, but --- while using for-java libraries is possible, --- due to more powerful language capabilities, solutions in the kotlin ecosystem use different methods. The most important features of kotlin that endorse different patterns are strong immutability support (\code{val}), simplified 'setter constructor' definition --- both incentivizing an in-constructor initialization of dependencies --- and first class singleton support (\code{object}), which allows for easier programmatic injection. Setter- and interface injection is, of course, still possible (through nullable or \code{lateinit} properties), but result in a reduction of code quality.
+		Conventionally, dependency injection is separated into three main types: \emph{constructor-}, \emph{setter-}, and \emph{interface injection}~\cite{DiTypes}. These cover most of the options commonly used in the java world, but --- while using for-java libraries is possible, --- due to more powerful language capabilities, solutions in the kotlin ecosystem use different methods. The most important features of kotlin that endorse different patterns are strong immutability support (\code{val}), simplified 'setter constructor' definition --- both incentivizing an in-constructor initialization of dependencies --- and first class singleton support (\code{object}) and top level functions, which allow for easier programmatic injection. Setter- and interface injection is, of course, still possible (through nullable or \code{lateinit} properties), but result in a reduction of code quality.
 		
 		\subsection*{Categorization}
 	
@@ -65,13 +65,13 @@ Although solutions of varying functionality and quality have existed for years -
 	
 	\section{Design}
 	
-		Kreator is based on a mixed system where resource identification is done in a declarative way using annotations, while resource injection is implemented in an imperative manner through global functions (\code{inject*}). This aims to capture the best both words --- easy to understand definition and idiomatic injection.
+		Kreator is based on a mixed system where resource identification is done in a declarative way using annotations, while resource injection is implemented in an imperative manner through global functions (\code{inject*}). This aims to capture the best of both words --- easy to understand definition and idiomatic injection.
 		
-		I have focused on supporting constructor injection, because as it allows for easy non-nullable, immutable dependency properties, it is the best type of injection. To achieve this, Kreator is heavily based on kotlin's default method parameters, which allow passing dependencies manually, or falling back to injection. The main design principle is that all components (classes) should take their dependencies as constructor parameters --- usually with the type of their provided service interface, and usually using kotlin's unified constructor-property definition construct ---, and provide default values for them via the injector functions. It is also an important thing that subtypes of classes shall have constructor parameters for their parents' constructor parameters as well (with default injection) to keep manual dependency passing possible. This is unfortunately easy to forget when extending a component, but is necessary to enable passing dependecies transitively. This design makes kreator a fairly "magic-free" framework, where resource declarations are transparent and injection is cleanly done.
+		I have focused on supporting constructor injection, because as it allows for easy non-nullable, immutable dependency properties, it is the best type of injection. To achieve this, Kreator is heavily based on kotlin's default method parameters, which allow passing dependencies manually, or falling back to injection. The main design principle is that all components (classes) should take their dependencies as constructor parameters --- usually with the type of their provided service interface, and usually using kotlin's unified constructor-property definition construct ---, and provide default values for them via the injector functions. It is also an important thing that subtypes of classes shall have constructor parameters for their parents' constructor parameters as well (with default injection) to keep manual dependency passing possible. This is unfortunately easy to forget when extending a component, but is necessary to enable passing dependecies transitively. This design makes Kreator a fairly "magic-free" framework, where resource declarations are transparent and injection is cleanly done.
 		
 		\begin{center}
 				\begin{minipage}{14cm}
-		\begin{lstlisting}[language=Kotlin, title={\code{userService.kt}}]
+		\begin{lstlisting}[language=Kotlin, title={\emph{Example injections} --- \code{userService.kt}}]
 	  open class UserService(
 		  private val userRepo: UserRepo = inject(),
 		  private val accountRepo: AccountRepo = inject()
@@ -82,6 +82,8 @@ Although solutions of varying functionality and quality have existed for years -
 	  class RemoteUserService(
 		  private val provider: ConnectionProvicder = inject(),
 		  
+		  // Always set parent's optional values
+		  // to allow manual dependency passing
 		  userRepo: UserRepo = inject(),
 		  accountRepo: AccountRepo = inject()
 	  ) : UserService(userRepo, accountRepo) {
@@ -92,7 +94,7 @@ Although solutions of varying functionality and quality have existed for years -
 				\end{minipage}
 			\end{center}
 	
-		Even though dependency injection is the goal of the framework, kreator's injection mechanism is really just resource provision --- provided resources are only "injected" to modules because the user connects the providers to the constructors. Because of this, kreator can perhaps more correctly be referred to as a resource management- and provision framework. It is perfectly valid to use injector functions in method bodies or property initializers (or inside constructors), but doing so breaks the possibility of manual dependency passing, effectively hides these used services, and therefore is ill-advised. Of course it sometimes still can be useful, especially when initialization cannot happen by hand anyway, such as in singleton property initializers or in the main function.
+		Even though dependency injection is the goal of the framework, Kreator's injection mechanism is really just resource provision --- provided resources are only "injected" to modules because the user connects the providers to the constructors. Because of this, Kreator can perhaps more correctly be referred to as a resource management- and provision framework. It is perfectly valid to use injector functions in method bodies or property initializers (or inside constructors), but doing so breaks the possibility of manual dependency passing, effectively hides these used services, and therefore is ill-advised. Of course it sometimes still can be useful, especially when initialization cannot happen by hand anyway, such as in singleton property initializers or in the main function.
 	
 		\subsection*{Injection function}
 		
@@ -126,16 +128,16 @@ Although solutions of varying functionality and quality have existed for years -
 	
 	\section{Injection qualifiers}
 	
-		Injection qualifiers are meta data connected to the injectable resources, which are used to select a resource for a given injection request. Such a request is a call of one of the injection functions. Its selector inputs are the implicitly defined --- through generics --- injection type and an optional tag value.
+		Injection qualifiers are meta data connected to the injectable resources, which are used to select a resource for a given injection request. Such a request is a call of one of the injection functions. Its selector inputs are the implicitly defined --- through generics --- injection type, assigned environment, defaultness, and an optional tag value.
 	
 		\subsection*{Tag}
 	
 		Tags are the most straightforward qualifiers assigned to resources. They are custom strings that are tested based on their equality to the (optional) query tag, and a resource definition can have multiple of them. At injection, the caller may pass a tag with which resources must be marked to be eligible. As these string can have any value, it is up to the programmers to create standard, meaningful tags to be used in a project. Tags should be used as a way of describing different behavior between resources of a type, and therefore often can be grouped by some attribute.
 		
-		Examples: \emph{file}, \emph{db}, \emph{in--mem};
+		Examples: \emph{file}, \emph{db}, \emph{in-mem};
 		\emph{direct}, \emph{cached};
 		\emph{blocking}, \emph{async};
-		\emph{secure}, \emph{non--secure}
+		\emph{secure}, \emph{non-secure}
 	
 		\subsection*{Environment}
 
@@ -172,16 +174,16 @@ Although solutions of varying functionality and quality have existed for years -
 	
 	\section{Resource declaration}
 	
-	In contrast to some DI frameworks (such as most declarative ones, including java CDI~\cite{CdiInjectable}) not all classes that comply with some rules (e.g. having no-arg constructors) are automatically eligible for injection. As more common in programmatic systems, resources must be marked explicitly as injectable --- but using annotations.
+	In contrast to some DI frameworks (such as most declarative ones, including java CDI~\cite{CdiInjectable}) not all classes that comply with some rules (e.g. having a no-arg constructor) are automatically eligible for injection. As more common in programmatic systems, resources must be marked explicitly as injectable --- but using annotations.
 	The four annotations associated with resource declaration are \code{InjectableType}, \code{Injectable}, \code{TestInjectable}, and \code{NotInjectableFor}.
 
 		\paragraph{\code{InjetableType}} This annotation marks types that act as a target for injection. It is intended to be used on interfaces that define the behavior of a type of services.
 		
-		\paragraph{\code{Injectable}, \code{TestInjectable}} These define resource providers with their respective configuration. They may be placed on no-argument functions, -constructors or classes with such constructors. Their configuration defines the qualifiers of the resource (environment, tags, defaultness), its arity, and their injectable types that define for which types can the resource be provided. By default (if the types are left empty), a resource is injectable for its own type (without is needing to be marked injectable type) and all of its parent injectable types. If types are set explicitly, the resource can only by injected for the set types.
+		\paragraph{\code{Injectable}, \code{TestInjectable}} These define resource providers with their respective configuration. They may be placed on no-argument functions, -constructors or classes with such a constructor. Their configuration defines the qualifiers of the resource (environment, tags, defaultness), its arity, and their injectable types that define for which types can the resource be provided. By default (if the types are left empty), a resource is injectable for its own type (without it needing to be marked injectable type) and all of its parent injectable types. If types are set explicitly, the resource can only by injected for the set types.
 		
 		A single provider can have multiple injectable annotations, each with their own set of qualifiers to establish different roles for the resource.
 		
-		\code{TestInjectable} is a simple type-safe helper whose only job is to prefix all environments with \code{"test"}, the most commonly used environment (other than \code{""}).
+		\code{TestInjectable} is a simple type-safe helper whose only job is to prefix the environment with \code{"test"}, the most commonly used environment (other than \code{""}).
 
 		\paragraph{\code{NotInjectableFor}} This annotation	acts as a disqualifier for specific types. It is to be placed on providers that are annotated with \code{Injectbale} (or \code{TestInjectable}) and have a lot of injectable parent types, but are not intended to be injectable for all of them. It allows the type qualifier to stay non-defined (implicitly all injectable supertypes), and to list only a handful of supertypes as not injectable for.
 
@@ -191,13 +193,13 @@ Although solutions of varying functionality and quality have existed for years -
 	
 	\section{Property injection}
 	
-	As an independent submodule, kreator contains a property configuration framework that allows for string, integer, and boolean properties to be defined in various sources, such as environment variables, property files, or structured config files. Like the resource injection parts, this module is configured via environmental variables (source type and optionally source location), supports optional and non-optional properties, is type-safe, and provides default no-op sources if configuration is not present.
+	As an independent submodule, Kreator contains a property configuration framework that allows for string, integer, and boolean properties to be defined in various sources, such as environment variables, property files, or structured config files. Like the resource injection parts, this module is configured via environmental variables (source type and optionally source location), supports optional and non-optional properties, is type-safe, and provides default no-op sources if configuration is not present.
 	
 	This system is relied on by the main project for environment dependent configuration of the data source, runtime actor handlers, test games, and test data manager scripts.
 	
 		\begin{center}
-			\begin{minipage}{13cm}
-		\begin{lstlisting}[language=Java, title={\emph{Sample config} -- \code{tulkas.conf}}]
+			\begin{minipage}{13.5cm}
+		\begin{lstlisting}[language=Java, title={\emph{Sample config} --- \code{tulkas.conf}}]
 	Client {
 		Log {
 			base-dir: /tulkas/log/
@@ -220,10 +222,10 @@ Although solutions of varying functionality and quality have existed for years -
         	Password: tulkas
 
         	Script {
-            	Init:  /sql/create.sql
-            	Fill:  /sql/insert_test_data.sql
-            	Clear: /sql/clear_tables.sql
-            	Drop:  /sql/delete.sql
+            	Init:  sql/create.sql
+            	Fill:  sql/insert_test_data.sql
+            	Clear: sql/clear_tables.sql
+            	Drop:  sql/delete.sql
         	}
     	}
 	}
@@ -232,8 +234,8 @@ Although solutions of varying functionality and quality have existed for years -
 		\end{center}
 		
 		\begin{center}
-			\begin{minipage}{14cm}
-		\begin{lstlisting}[language=Kotlin, title={\emph{Example usage} -- \code{dbConnection.kt}}]
+			\begin{minipage}{13.5cm}
+		\begin{lstlisting}[language=Kotlin, title={\emph{Example usage} --- \code{dbConnection.kt}}]
 	@InjectableType
 	interface ConnectionSource {
 		operator fun invoke(): Connection
@@ -265,16 +267,17 @@ Although solutions of varying functionality and quality have existed for years -
 	
 	\section{Project structure}
 	
-	Kreator is structured as a maven project, and is separated into four modules all targeting their respective jar files -- \emph{annotation}, \emph{api}, \emph{core}, and \emph{property}.
+	Kreator is structured as a maven project, and is separated into four modules all targeting their respective jar files --- \emph{annotation}, \emph{api}, \emph{core}, and \emph{property}.
 	
-	\paragraph{Annotation} contains necessary types for resource declaration, it is a very minimal library that can be used by any frameworks or libraries that wish to provide optional kreator--based injection support. It only contains declarative parts, therefore if a dependency of a program is built on it, but the program itself decides not to use kreator, no disadvantage will happen.
+	\paragraph{Annotation} contains necessary types for resource declaration, it is a very minimal library that can be used by any frameworks or libraries that wish to provide optional Kreator-based injection support. It only contains declarative parts, therefore if a dependency of a program is built on it, but the program itself decides not to use Kreator, no disadvantage will happen.
 	
-	\paragraph{API} defines the injetion functions with default no--op implementations, therefore it too can be used in a library without the it affecting all users of that library, only the injections will fail (return null on optional injections).
+	\paragraph{API} defines the injetion functions with default no-op implementations, therefore it too can be used in a library without the it affecting all users of that library, only the injections will fail (return null on optional injections).
 	
-	\paragraph{Core} includes the default implementation of the implementation logic defined by \emph{api} and is necessary for injection.
+	\paragraph{Core} includes the default implementation of the implementation logic defined by \emph{api}, and is necessary for injection. It is designed to be easily replaceable by alternative implementations.
 	
 	\paragraph{Property} defines and implements all the aforementioned property configuration capabilities.
 	
+	\bigbreak
 	The project is available as free software on GitHub~\cite{Kreator}.	
 	
 %\end{document}

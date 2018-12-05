@@ -14,7 +14,7 @@ In order to be operatable by the runtime, the games and their respective bots mu
 
 		\subsection*{Bot interface}
 		
-		The bot interface is a simple java interface that extends the \code{BotInterface} marker interface found in the universal game runtime api and defines the operations a bot must support. Through its methods will the engine communicate with a bot, which must implement this interface. In order to ensure better compatibility with different programming paradigms (such as functional programming), and generally make bot development easier, it is advised to operate bots as stateless entities, and pass the current state of the game to them in these methods. 
+		The bot interface is a simple java interface that extends the \code{BotInterface} marker interface found in the universal game runtime api, and defines the operations a bot must support. Through its methods will the engine communicate with a bot, which must implement this interface. In order to ensure better compatibility with different programming paradigms (such as functional programming), and generally make bot development easier, it is advised to operate bots as stateless entities, and pass the current state of the game to them in these methods. 
 		
 		\subsection*{API types}
 
@@ -39,7 +39,7 @@ In order to be operatable by the runtime, the games and their respective bots mu
 	
 	However, in the engine runtime api two abstract classes are also defined to help (type-safe) game engine development, namely \code{ChallengeGameEngine} and \code{DuelGameEngine}.
 	
-	A game engine is able to log messages during a game for both itself and the playing bot(s) as well. It can do so, by acquiring a \code{GameEngineLogger} instance either using the \code{EngineLoggerFactory}'s static \code{getLogger} method, or if already extending one of the aforementioned abstract helpers, through its \code{logger} protected member.  
+	A game engine is able to log messages during a game for both itself and the playing bot(s) as well. It can do so, by acquiring a \code{GameEngineLogger} instance, either using the \code{EngineLoggerFactory}'s static \code{getLogger} method, or if already extending one of the aforementioned abstract helpers, through its \code{logger} protected member.  
 	
 		\subsection*{ChallengeGameEngine}
 		
@@ -58,6 +58,82 @@ In order to be operatable by the runtime, the games and their respective bots mu
 	Bots are created as libraries that contain a concrete implementation of the specific game's bot interface, and have a public, no-argument constructor. The bot library may contain other helpers and utilities as well.
 
 	Much like game engines, bots can log messages during matches; however, they can only send these to themselves (so only their creator can view them). To create log entries with a bot, a \code{GameBotLogger} instance is needed. A bot can access one using the \code{BotLoggerFactory}'s static \code{getLogger} method.
+	
+	\begin{figure}[h]
+		\centering
+		\begin{tikzpicture}[->, >=stealth, rectangle,
+							every node/.style={minimum height=1cm, align=center},
+							node distance=3cm, auto,
+							arrow/.style={shorten >=1pt,>=stealth',semithick},
+							component/.style={minimum width=4cm, node distance=6cm},
+							contentFirst/.style={node distance=1.3cm},
+							content/.style={node distance=0.5cm},
+							association/.style={arrow, ->},
+							inheritance/.style={arrow, -{Triangle[open]}},
+							implementation/.style={arrow,dashed, -{Triangle[open]}}]
+		
+			\node [component] (EngineApi) [] {\textbf{Engine API}};
+			\node [contentFirst] (EngineApiUtils) [below of=EngineApi] {Common utilities};
+			\node [content] (EngineInterface) [below of=EngineApiUtils] {Engine base};
+			\draw (EngineApi.north west) rectangle ($(EngineApi.south east) + (0,-2.1)$);
+			\draw (EngineApi.north west) rectangle (EngineApi.south east);
+		
+			\node [component] (BotApi) [below of=EngineApi, node distance=4.5cm] {\textbf{Bot API}};
+			\node [contentFirst] (BotLogger) [below of=BotApi] {Logger utilities};
+			\node [content] (BotApiInterface) [below of=BotLogger] {Bot interface marker};
+			\draw (BotApi.north west) rectangle ($(BotApi.south east) + (0,-2.1)$);
+			\draw (BotApi.north west) rectangle (BotApi.south east);
+		
+		
+			\node [component] (Engine) [right of=EngineApi, node distance=8cm] {\textbf{Game Engine}};
+			\node [contentFirst] (EngineClass) [below of=Engine] {Engine class};
+			\node [content] (EngineUtils) [below of=EngineClass] {Utilities};
+			\draw (Engine.north west) rectangle ($(Engine.south east) + (0,-2.1)$);
+			\draw (Engine.north west) rectangle (Engine.south east);
+			
+			\node [component] (GameApi) [below of=Engine, node distance=4.5cm] {\textbf{Game API}};
+			\node [contentFirst] (BotInterface) [below of=GameApi] {Bot interface};
+			\node [content] (BotApiUtils) [below of=BotInterface] {Shared utilities};
+			\draw (GameApi.north west) rectangle ($(GameApi.south east) + (0,-2.1)$);
+			\draw (GameApi.north west) rectangle (GameApi.south east);
+			
+			\node [component] (Bot) [below of=BotApi, node distance=5cm, xshift=4cm] {\textbf{Bot instance}};
+			\node [contentFirst] (BotClass) [below of=Bot] {Bot class};
+			\node [content] (BotUtils) [below of=BotClass] {Utilities};
+			\draw (Bot.north west) rectangle ($(Bot.south east) + (0,-2.1)$);
+			\draw (Bot.north west) rectangle (Bot.south east);
+			
+			\draw[association,rounded corners=5pt] (EngineClass) -- ++(1.8,0) |- (BotInterface);
+			\draw[association,rounded corners=5pt] (EngineClass) -- ++(1.8,0) |- (BotApiUtils);
+			\draw[association,rounded corners=5pt] (EngineClass) -- ++(1.5,0) |- (EngineUtils);
+			\draw[association,rounded corners=5pt] (EngineClass) edge (EngineApiUtils);
+			\draw[inheritance,rounded corners=5pt] (EngineClass) -- ++(-1.7,0) |- (EngineInterface);
+			
+			\draw [implementation,rounded corners=5pt] (BotClass) -- ++(1.5,0) |- (BotInterface);
+			\draw[association,rounded corners=5pt] (BotClass) -- ++(2.2,0) |- (BotApiUtils);
+			\draw[association,rounded corners=5pt] (BotClass) -- ++(1.5,0) |- (BotUtils);
+			\draw[association,rounded corners=5pt] (BotClass.west) -- ++(-0.5,0) |- (BotLogger);
+			
+			\draw[association,rounded corners=5pt] (EngineInterface) -- ++(-2.5,0) |- (BotApiInterface);
+			
+			\draw[inheritance,rounded corners=5pt] (BotInterface.north)
+				 -- ++(0,0.1) -- ++(-4,0) |- (BotApiInterface);
+			
+			\node [] (ApiCaption) [above of=EngineApi, node distance=1.5cm]
+				{\textbf{Part of the project}};
+				
+			\node [] (GameCaption) [above of=Engine, node distance=1.5cm]
+				{\textbf{Part of the game}};
+			
+			\draw[thick, dotted] ($(ApiCaption.north west) + (-1,0.2)$)
+				rectangle ($(BotApi.south east) + (1,-3)$);
+				
+			\draw[thick, dotted] ($(GameCaption.north west) + (-1,0.2)$)
+				rectangle ($(GameApi.south east) + (1,-3)$);
+			
+		\end{tikzpicture}
+		\caption*{\emph{Game model components}}
+	\end{figure}
 
 %\end{document}
 

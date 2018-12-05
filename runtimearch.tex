@@ -41,10 +41,10 @@ The limitations of java's security error handling make the JVM unable to provide
 	
 	\section{Actor client runtimes}
 	
-	Actor client runtimes are executable java processes that are responsible for communicating with the runtime handler, providing a secure environment in which the given actor can be used, processing requests from the runtime handler, driving the actors in response to the received control messages, and reporting any problems that might occur during the game.
+	Actor client runtimes are executable java processes that are responsible for communicating with the runtime handler, providing a secure environment in which the given actor can be used, processing requests from the runtime handler, driving the actor in response to the received control messages, and reporting any problems that might occur during the game.
 	They come in two forms, based on whether they manage a game engine or a bot, as the two tasks require different messages and control structure.
 
-	 The runtimes are isolated programs, that only need to know the way of connecting to the handler to run, as they actually receive the actor to be managed and other libraries through standard messages after startup. This allows a flexible separation of the runtimes as long as a connection can be provided between them. If, for example, extra security or scalability is warranted, the design would allow running these clients on different physical- or virtual machines, or other containers.
+	 The runtimes are isolated programs, that only need to know the way of connecting to the handler to run, as they actually receive the actor to be managed and other libraries through standard messages after startup. This allows a flexible separation of the runtimes as long as a connection can be provided between them. If, for example, extra security or scalability is warranted, the design would allow running these clients on different physical- or virtual machines, or other types of containers.
 	
 	All actor client runtimes provide logging facilities to their respective actors, which can be used to save messages to be viewed by the creator of the actor after the game has ended.
 	
@@ -107,7 +107,7 @@ The limitations of java's security error handling make the JVM unable to provide
 		
 			\paragraph{Start notice}
 			
-			This message is only sent once per game to the engine client, as a signal that all actor clients have received all the data (api and actor binaries) that they needed to start working, and a game may be started. Following its reception the engine client starts the game by invoking the engine object's \code{playGame} method.
+			This message is only sent once per game to the engine client, as a signal that all actor clients have received all the data (api and actor binaries) that they needed to start working, and a game may be started. Following its reception, the engine client starts the game by invoking the engine object's \code{playGame} method.
 		
 			\paragraph{Shutdown notice}
 			

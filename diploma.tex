@@ -1,6 +1,9 @@
 \documentclass[12pt,a4paper,oneside]{report}             % Single-side
 %\documentclass[11pt,a4paper,twoside,openright]{report}  % Duplex
 
+\usepackage[hungarian, american]{babel}
+\selectlanguage{american}
+
 \usepackage[backend=biber]{biblatex}
 \addbibresource{mybib.bib}
 
@@ -34,7 +37,7 @@
 
 \usepackage{setspace}
 
-\usetikzlibrary{arrows, positioning, shapes.symbols, shapes.callouts, patterns, calc, automata}
+\usetikzlibrary{arrows, positioning, shapes.symbols, shapes.callouts, patterns, calc, automata, arrows.meta}
 
 \definecolor{mtypecolor}{HTML}{491b68}
 \definecolor{mtypeparamcolor}{HTML}{1e5b0e}
@@ -174,8 +177,8 @@
 	%evalutaion,%
 	%summary,%
 	terminology,%
-	acknowledgement,%
-	appendices%
+	%acknowledgement,%
+	%appendices%
 }
 
 %--------------------------------------------------------------------------------------
@@ -223,8 +226,9 @@
 \include{web}
 
 \include{terminology}
-\include{acknowledgement}
+%\include{acknowledgement}
 
+\raggedright
 \printbibliography
 \addcontentsline{toc}{chapter}{Bibliography}
 %\include{appendices}

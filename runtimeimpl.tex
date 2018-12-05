@@ -71,9 +71,9 @@
 		
 		\paragraph{Type parameters and payload}
 		
-		The difference between the type parameters and the payload data is that type parameters can be understood and processed without 'unsafe' operations such as java deserialization. Their arity and types are determined by the message type, and their values may consist of primitives, strings, or values of enumerations. This --- combined with a size limit on them --- allows the runtime handler to always safely parse, process and, optionally, route the messages without requiring to understand the potentially unsafe data of the payload.
+		The difference between the type parameters and the payload data is that type parameters can be understood and processed without 'unsafe' operations such as java deserialization. Their arity and types are determined by the message type, and their values may consist of primitives, strings, or values of enumerations. This --- combined with a size limit on them --- allows the runtime handler to always safely parse, process and, optionally, route the messages without requiring it to understand the potentially unsafe data of the payload.
 		
-		The data payload on the other hand deals with binary data produced by one of the actors, and as such should only be parsed by the actor clients, which are already equipped with the proper protective capabilities.
+		The data payload on the other hand deals with binary data produced by one of the actors, and as such should only be parsed by the actor clients taht are already equipped with the proper protective capabilities.
 		The payloads size --- in bytes --- is also included in the message for safe message handling.
 		
 		Both the type parameters and the payload are converted to base 64 strings, as to make message formatting and parsing easier --- due to no necessary separator escaping.
@@ -126,7 +126,7 @@
 
 			\paragraph{Serialization and Deserialization}
 			
-			Serialization takes payload-less messages or converted messages, and transforms them to the aforementioned general message format. This includes encoding the message header, and concatenating it to the prefix and optional (already converted) payload. This encoding of the header --- and its pair decoding in deserialization --- can be done safely and strictly, as the contents of the header is specified by the message type, and its parameters are simple values that can be easily converted to strings.
+			Serialization takes payload-less messages or converted messages, and transforms them to the aforementioned general message format. This includes encoding the message header, and concatenating it to the prefix and optional (already converted) payload. This encoding of the header --- and its pair decoding in deserialization --- can be done safely and strictly, as the content of the header specified by the message type, and its parameters are simple values that can be easily converted to strings.
 			
 			As all parties require (de)serialization to communicate, the components providing these services are shared across all of them.
 
@@ -142,7 +142,7 @@
 
 	\section{Runtime handler}
 
-	A runtime handler is made up of a couple of active components and passive data structures. Active components are primarily based on their own thread, and communicate with each other through wither direct calls, or the passive structures.
+	A runtime handler is made up of a couple of active components and passive data structures. Active components are primarily based on their own thread, and communicate with each other through either direct calls, or the passive structures.
 	There are two kinds of these active components, a --- per runtime handler --- singleton control handler, and actor handlers for each actor client runtime. Passive components come in the form of a control queue and log stores for each actor.
 		
 		\begin{figure}[h]
@@ -175,7 +175,7 @@
 				
 				\node [draw] (A2C)
 					[below of=A2H, node distance=3cm, align=center, minimum width=2cm]
-					{Actor 1 \\ Client};
+					{Actor 2 \\ Client};
 				
 				\draw[post] (CH) edge [transform canvas={xshift=-0.15cm}]
 					node [left, minimum width=0cm] {\emph{take}} (CQ);
@@ -216,7 +216,7 @@
 		
 		The control handler is the heart of the runtime handler, as its name implies, it directs the flow of the game, and manages the actor handlers. At its core it is a finite-state machine that processes control messages, and optionally instructs the actor handlers to send messages based on the actions.
 		
-		It is important to note that the control messages it consumes are slightly different from the general messages sent between the members of the runtime model, as they have been preprocessed by the actor handlers. The two main changes are that log messages have been removed (they are processed by the actor handlers), and each message contains its source actor. The control handler acquires these messages from the control queue, which acts as a thread-safe buffer between the components. The possible control state are:
+		It is important to note that the control messages it consumes are slightly different from the general messages sent between the members of the runtime model, as they have been preprocessed by the actor handlers. The two main changes are that log messages have been removed (they are processed by the actor handlers), and each message contains its source actor. The control handler acquires these messages from the control queue, which acts as a thread-safe buffer between the components. The possible control states are:
 		
 		\begin{itemize}
 			\item \textbf{Connection await} The initial state, it signals that not all actor clients are ready to start, as not all have connected or received all the binaries they need.
@@ -266,7 +266,7 @@
 			\caption*{\emph{Control state machine}}
 		\end{figure}
 
-		To simplify game flow management, the control handler is an extended state machine which allows states to store variables as internal state. This data allows for selective transitions to happen and help store results in the final (accepting) states. Each state may have its own set of parameters as follows: 
+		To simplify game flow management, the control handler is an extended state machine, which allows states to store variables as internal state. This data allows for selective transitions to happen, and help store results in the final (accepting) states. Each state may have its own set of parameters as follows: 
 
 		\begin{table}[h]
 			\centering
@@ -291,7 +291,7 @@
 
 			\paragraph{Game flow}
 			
-			The controller starts off in the \code{Connection await} state and remains there until all actors have received their required binaries. It keeps track of the sent libraries, and after the last of these has been issued, a 'Start notice' message is sent to the engine client, the state is changed to \code{Wait for Engine}, and the game starts.
+			The controller starts off in the \code{Connection await} state, and remains there until all actors have received their required binaries. It keeps track of the sent libraries, and after the last of these has been issued, a 'Start notice' message is sent to the engine client, the state is changed to \code{Wait for Engine}, and the game starts.
 			
 			During the game, as the engine makes calls for which the bots respond, the state is bouncing between \code{Wait for Engine} and \code{Wait for Bot}. As a security measure, the target bot and called method are also stored, so that it can be verified that the right bot answered a call. As per the game model, 'Bot timeout' messages are also possible in the place of 'Call results'.
 			
@@ -386,6 +386,8 @@
 	\section{Actor runtime}
 
 	The structure of actor runtimes is fairly simple, and is largely identical between engine- and bot clients. Their core component is the 'client', which provides the logic necessary to manage the actor assigned to them, and therefore of course contains actor role (engine or bot) specific code. The rest of the components involved in the communication process are equivalent in each case. The client is based on three active objects all running on separate threads --- a message receiver, a message sender, and the aforementioned client. These elements are communicating with each other --- in a one-way manner --- over blocking queues.
+	
+	The receiver waits for messages over the communication channel, processes them and places them on the 'In queue', from where the client can get them. It may also initiate the exit of the client if a shutdown notice is received. Likewise, the sender sends messages placed onto the 'Out queue' by the client.
 		
 	\begin{figure}[h]
 		\centering
@@ -448,11 +450,9 @@
 		\caption*{\emph{Actor runtime client model}}
 	\end{figure}
 	
-	The receiver waits for messages over the communication channel, processes them and places them on the 'In queue', from where the client can get them. It may also initiate the exit of the client if a shutdown notice is received. Likewise, the sender sends messages placed onto the 'Out queue' by the client.
-	
 		\subsection{Base client}
 
-			As the client's workflow is dependent on the actor's type it is managing, it is realized as two different classes --- the \code{EngineClient} and the \code{BotClient} ---, but many common functions are outsourced from these to shared dependencies.
+			As the client's workflow is dependent on the type of the actor it manages, it is realized as two different classes --- the \code{EngineClient} and the \code{BotClient} ---, but many common functions are outsourced from these to shared dependencies.
 
 			\subsubsection*{Class loading and security}
 		
@@ -461,7 +461,7 @@
 			Safe code is constituted by all the sources of the runtime client and its dependencies, such as java libraries used --- effectively the whole codebase of the runtime. This partition is granted all possible permissions using a policy file, which is --- with the enforcing security manager --- put into effect via program arguments passed to the JVM.
 
 			\begin{center}
-				\begin{minipage}{11cm}
+				\begin{minipage}{12cm}
 					\begin{lstlisting}[language=Java, title={\code{client.policy}}]
 	   grant codeBase "file:${trusted.codebase}" {
 		   permission java.security.AllPermission "", "";
@@ -470,7 +470,7 @@
 				\end{minipage}
 			\end{center}
 		
-			This policy grants all permissions to classes whose source URI matches the the file path also set as a vm argument through \code{-Dtrusted.codebase}. This property is in turn set by the starter script to the executable jar's path that not only contains the actor client, but also all of its necessary dependencies as well.
+			This policy grants all permissions to classes whose source URI matches the file path also set as a vm argument through \code{-Dtrusted.codebase}. This property is in turn set by the starter script to the executable jar's path that not only contains the actor client, but also all of its necessary dependencies as well.
 			
 			As a security manager is installed, other code sources have no granted permissions by default, therefore all other (unsafe) code parts need only not to be marked as being from the same source.
 			

@@ -1,185 +1,183 @@
-\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\select@language {american} \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{Kivonat}{4}{chapter*.2}
+\select@language {hungarian} \contentsline {chapter}{Kivonat}{4}{chapter*.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{Abstract}{5}{chapter*.3}
+\select@language {american} \contentsline {chapter}{Abstract}{5}{chapter*.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {1}Introduction}{6}{chapter.1}
+\select@language {american} \contentsline {chapter}{\numberline {1}Introduction}{6}{chapter.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {1.1}Learning programming}{6}{section.1.1}
+\select@language {american} \contentsline {section}{\numberline {1.1}Learning programming}{6}{section.1.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {1.2}Recreational programming}{7}{section.1.2}
+\select@language {american} \contentsline {section}{\numberline {1.2}Recreational programming}{7}{section.1.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {1.3}Goal of the project}{7}{section.1.3}
+\select@language {american} \contentsline {section}{\numberline {1.3}Goal of the project}{7}{section.1.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {2}Game Model}{8}{chapter.2}
+\select@language {american} \contentsline {chapter}{\numberline {2}Game Model}{8}{chapter.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.1}Game API}{8}{section.2.1}
+\select@language {american} \contentsline {section}{\numberline {2.1}Game API}{8}{section.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.2}Game engine}{9}{section.2.2}
+\select@language {american} \contentsline {section}{\numberline {2.2}Game engine}{9}{section.2.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.3}Bot}{10}{section.2.3}
+\select@language {american} \contentsline {section}{\numberline {2.3}Bot}{10}{section.2.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {3}Environment}{11}{chapter.3}
+\select@language {american} \contentsline {chapter}{\numberline {3}Environment}{12}{chapter.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.1}Database}{11}{section.3.1}
+\select@language {american} \contentsline {section}{\numberline {3.1}Database}{12}{section.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.2}Web backend}{11}{section.3.2}
+\select@language {american} \contentsline {section}{\numberline {3.2}Web backend}{12}{section.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.3}Java Security Architecture}{11}{section.3.3}
+\select@language {american} \contentsline {section}{\numberline {3.3}Java Security Architecture}{12}{section.3.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3.1}Access control}{12}{subsection.3.3.1}
+\select@language {american} \contentsline {subsection}{\numberline {3.3.1}Access control}{13}{subsection.3.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3.2}Security policy}{13}{subsection.3.3.2}
+\select@language {american} \contentsline {subsection}{\numberline {3.3.2}Security policy}{14}{subsection.3.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3.3}Limitations}{13}{subsection.3.3.3}
+\select@language {american} \contentsline {subsection}{\numberline {3.3.3}Limitations}{14}{subsection.3.3.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Runtime Architecture}{15}{chapter.4}
+\select@language {american} \contentsline {chapter}{\numberline {4}Runtime Architecture}{16}{chapter.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.1}Runtime model}{15}{section.4.1}
+\select@language {american} \contentsline {section}{\numberline {4.1}Runtime model}{16}{section.4.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.2}Runtime handler}{15}{section.4.2}
+\select@language {american} \contentsline {section}{\numberline {4.2}Runtime handler}{16}{section.4.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.3}Actor client runtimes}{16}{section.4.3}
+\select@language {american} \contentsline {section}{\numberline {4.3}Actor client runtimes}{17}{section.4.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.4}Communication model}{17}{section.4.4}
+\select@language {american} \contentsline {section}{\numberline {4.4}Communication model}{18}{section.4.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Start notice}{18}{section*.15}
+\select@language {american} \contentsline {paragraph}{Start notice}{19}{section*.16}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Shutdown notice}{18}{section*.16}
+\select@language {american} \contentsline {paragraph}{Shutdown notice}{19}{section*.17}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Log entry}{18}{section*.17}
+\select@language {american} \contentsline {paragraph}{Log entry}{19}{section*.18}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Error report}{18}{section*.18}
+\select@language {american} \contentsline {paragraph}{Error report}{19}{section*.19}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Match result, Challenge result}{19}{section*.19}
+\select@language {american} \contentsline {paragraph}{Match result, Challenge result}{20}{section*.20}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Runtime Implementation}{21}{chapter.5}
+\select@language {american} \contentsline {chapter}{\numberline {5}Runtime Implementation}{22}{chapter.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.1}Messaging}{21}{section.5.1}
+\select@language {american} \contentsline {section}{\numberline {5.1}Messaging}{22}{section.5.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.1.1}Format}{21}{subsection.5.1.1}
+\select@language {american} \contentsline {subsection}{\numberline {5.1.1}Format}{22}{subsection.5.1.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Type parameters and payload}{21}{section*.26}
+\select@language {american} \contentsline {paragraph}{Type parameters and payload}{22}{section*.27}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.1.2}Conversion and serialization}{22}{subsection.5.1.2}
+\select@language {american} \contentsline {subsection}{\numberline {5.1.2}Conversion and serialization}{23}{subsection.5.1.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Conversion and deconversion}{22}{section*.28}
+\select@language {american} \contentsline {paragraph}{Conversion and deconversion}{23}{section*.29}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Serialization and Deserialization}{23}{section*.29}
+\select@language {american} \contentsline {paragraph}{Serialization and Deserialization}{24}{section*.30}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.1.3}Communication}{23}{subsection.5.1.3}
+\select@language {american} \contentsline {subsection}{\numberline {5.1.3}Communication}{24}{subsection.5.1.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.2}Runtime handler}{23}{section.5.2}
+\select@language {american} \contentsline {section}{\numberline {5.2}Runtime handler}{24}{section.5.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.2.1}Control handler}{24}{subsection.5.2.1}
+\select@language {american} \contentsline {subsection}{\numberline {5.2.1}Control handler}{25}{subsection.5.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Game flow}{25}{section*.33}
+\select@language {american} \contentsline {paragraph}{Game flow}{26}{section*.34}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.2.2}Actor handler}{26}{subsection.5.2.2}
+\select@language {american} \contentsline {subsection}{\numberline {5.2.2}Actor handler}{27}{subsection.5.2.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.3}Actor runtime}{27}{section.5.3}
+\select@language {american} \contentsline {section}{\numberline {5.3}Actor runtime}{28}{section.5.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.3.1}Base client}{28}{subsection.5.3.1}
+\select@language {american} \contentsline {subsection}{\numberline {5.3.1}Base client}{29}{subsection.5.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Engine client}{30}{section*.38}
+\select@language {american} \contentsline {paragraph}{Engine client}{31}{section*.39}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Bot client}{30}{section*.39}
+\select@language {american} \contentsline {paragraph}{Bot client}{31}{section*.40}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {6}Kreator}{31}{chapter.6}
+\select@language {american} \contentsline {chapter}{\numberline {6}Kreator}{32}{chapter.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.1}Introduction}{31}{section.6.1}
+\select@language {american} \contentsline {section}{\numberline {6.1}Introduction}{32}{section.6.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.2}Design}{32}{section.6.2}
+\select@language {american} \contentsline {section}{\numberline {6.2}Design}{33}{section.6.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Standard injection}{33}{section*.43}
+\select@language {american} \contentsline {paragraph}{Standard injection}{35}{section*.44}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Optional injection}{34}{section*.44}
+\select@language {american} \contentsline {paragraph}{Optional injection}{35}{section*.45}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Any injection}{34}{section*.45}
+\select@language {american} \contentsline {paragraph}{Any injection}{35}{section*.46}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.3}Injection qualifiers}{34}{section.6.3}
+\select@language {american} \contentsline {section}{\numberline {6.3}Injection qualifiers}{35}{section.6.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.4}Resource declaration}{35}{section.6.4}
+\select@language {american} \contentsline {section}{\numberline {6.4}Resource declaration}{36}{section.6.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\texttt {InjetableType}}{36}{section*.51}
+\select@language {american} \contentsline {paragraph}{\texttt {InjetableType}}{37}{section*.52}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\texttt {Injectable}, \texttt {TestInjectable}}{36}{section*.52}
+\select@language {american} \contentsline {paragraph}{\texttt {Injectable}, \texttt {TestInjectable}}{37}{section*.53}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\texttt {NotInjectableFor}}{36}{section*.53}
+\select@language {american} \contentsline {paragraph}{\texttt {NotInjectableFor}}{37}{section*.54}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.5}Property injection}{36}{section.6.5}
+\select@language {american} \contentsline {section}{\numberline {6.5}Property injection}{37}{section.6.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.6}Project structure}{38}{section.6.6}
+\select@language {american} \contentsline {section}{\numberline {6.6}Project structure}{39}{section.6.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Annotation}{38}{section*.54}
+\select@language {american} \contentsline {paragraph}{Annotation}{39}{section*.55}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{API}{38}{section*.55}
+\select@language {american} \contentsline {paragraph}{API}{39}{section*.56}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Core}{39}{section*.56}
+\select@language {american} \contentsline {paragraph}{Core}{40}{section*.57}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Property}{39}{section*.57}
+\select@language {american} \contentsline {paragraph}{Property}{40}{section*.58}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {7}Example game: Battleship}{40}{chapter.7}
+\select@language {american} \contentsline {chapter}{\numberline {7}Example game: Battleship}{41}{chapter.7}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.1}Design}{41}{section.7.1}
+\select@language {american} \contentsline {section}{\numberline {7.1}Design}{42}{section.7.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.2}Game API}{41}{section.7.2}
+\select@language {american} \contentsline {section}{\numberline {7.2}Game API}{42}{section.7.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {7.2.1}Domain classes}{41}{subsection.7.2.1}
+\select@language {american} \contentsline {subsection}{\numberline {7.2.1}Domain classes}{42}{subsection.7.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\texttt {Position}}{42}{section*.59}
+\select@language {american} \contentsline {paragraph}{\texttt {Position}}{43}{section*.60}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\texttt {Direction}}{42}{section*.60}
+\select@language {american} \contentsline {paragraph}{\texttt {Direction}}{43}{section*.61}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\texttt {Ship}}{42}{section*.61}
+\select@language {american} \contentsline {paragraph}{\texttt {Ship}}{43}{section*.62}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\texttt {ShootResult}}{42}{section*.62}
+\select@language {american} \contentsline {paragraph}{\texttt {ShootResult}}{43}{section*.63}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\texttt {TargetMap}}{42}{section*.63}
+\select@language {american} \contentsline {paragraph}{\texttt {TargetMap}}{43}{section*.64}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {7.2.2}Bot interface}{42}{subsection.7.2.2}
+\select@language {american} \contentsline {subsection}{\numberline {7.2.2}Bot interface}{43}{subsection.7.2.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {7.2.3}Utility}{43}{subsection.7.2.3}
+\select@language {american} \contentsline {subsection}{\numberline {7.2.3}Utility}{44}{subsection.7.2.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.3}Engine}{43}{section.7.3}
+\select@language {american} \contentsline {section}{\numberline {7.3}Engine}{44}{section.7.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.4}Random bot}{43}{section.7.4}
+\select@language {american} \contentsline {section}{\numberline {7.4}Random bot}{44}{section.7.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.5}A smarter bot}{44}{section.7.5}
+\select@language {american} \contentsline {section}{\numberline {7.5}A smarter bot}{45}{section.7.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {8}Managment framework}{46}{chapter.8}
+\select@language {american} \contentsline {chapter}{\numberline {8}Managment framework}{47}{chapter.8}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {8.1}Persistence}{46}{section.8.1}
+\select@language {american} \contentsline {section}{\numberline {8.1}Persistence}{47}{section.8.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {8.2}Game management}{47}{section.8.2}
+\select@language {american} \contentsline {section}{\numberline {8.2}Game management}{48}{section.8.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {8.3}Web interface}{47}{section.8.3}
+\select@language {american} \contentsline {section}{\numberline {8.3}Web interface}{48}{section.8.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{Glossary}{50}{chapter*.66}
+\select@language {american} \contentsline {chapter}{Glossary}{51}{chapter*.67}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Game}{50}{section*.67}
+\select@language {american} \contentsline {paragraph}{Game}{51}{section*.68}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Challenge}{50}{section*.68}
+\select@language {american} \contentsline {paragraph}{Challenge}{51}{section*.69}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Match}{50}{section*.69}
+\select@language {american} \contentsline {paragraph}{Match}{51}{section*.70}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Game Runtime API}{50}{section*.70}
+\select@language {american} \contentsline {paragraph}{Game Runtime API}{51}{section*.71}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Engine Runtime API}{50}{section*.71}
+\select@language {american} \contentsline {paragraph}{Engine Runtime API}{51}{section*.72}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{(Game) Engine}{50}{section*.72}
+\select@language {american} \contentsline {paragraph}{(Game) Engine}{51}{section*.73}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Game API}{50}{section*.73}
+\select@language {american} \contentsline {paragraph}{Game API}{51}{section*.74}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Bot interface}{51}{section*.74}
+\select@language {american} \contentsline {paragraph}{Bot interface}{52}{section*.75}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Bot}{51}{section*.75}
+\select@language {american} \contentsline {paragraph}{Bot}{52}{section*.76}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Actor}{51}{section*.76}
+\select@language {american} \contentsline {paragraph}{Actor}{52}{section*.77}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Actor client}{51}{section*.77}
+\select@language {american} \contentsline {paragraph}{Actor client}{52}{section*.78}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{K\IeC {\"o}sz\IeC {\"o}netnyilv\IeC {\'a}n\IeC {\'\i }t\IeC {\'a}s}{52}{chapter*.78}
-\defcounter {refsection}{0}\relax 
-\contentsline {chapter}{Bibliography}{53}{chapter*.79}
+\select@language {american} \contentsline {chapter}{Bibliography}{53}{chapter*.79}

@@ -89,13 +89,13 @@ The system targets the Java Virtual Machine, and is therefore reliant on its fea
 
 	\subsection{Limitations}
 	
-	While the JVM has good facilities to protect resources and guard certain operations, it is not equipped to resolve all possible exploits which may be caused by untrusted code. Due to java's shared-heap based memory model, the JVM is inherently incapable of providing thread-based protection against deliberate or accidental causes of out of memory errors.
+	While the JVM has good facilities to protect resources, and guard certain operations, it is not equipped to resolve all possible exploits which may be caused by untrusted code. Due to java's shared-heap based memory model, the JVM is inherently incapable of providing thread-based protection against deliberate or accidental causes of out of memory errors.
 	
 	Furthermore, since errors --- as opposed to exceptions --- are not necessarily catchable (as they usually signal unrecoverable mishaps), it would not be possible to reliably log which actor caused a crash. That would be particularly unfortunate in the case of matches, where one bot could cause any game to result in an error and the sinner would not be detectable.
 
-	These limitations make it necessary to take the actors --- and their handlers --- out of the common java runtime, and place them into separate JVMs. This then can defend against out-of-memory style-, and other unavoidable errors. In this case, the virtual machines are simply allowed to crash as a result of the errors, because their failure leaves the rest of the system unaffected. If such crash happens, the runtime will be notified through the cessation of communication with it, and it can react in an appropriate manner.
+	These limitations make it necessary to take the actors --- and their handlers --- out of the common java runtime, and place them into separate JVMs. This method can defend against out-of-memory style-, and other unavoidable errors. In this case, the virtual machines are simply allowed to crash as a result of the errors, because their failure leaves the rest of the system unaffected. If such crash happens, the runtime will be notified through the cessation of communication with it, and it can react in an appropriate manner.
 	
-	However, limiting the instances memory capacity and CPU time is still crucial, as burning through any of them may result in errors being thrown in another JVM instance. Fortunately, these can be managed either through JVM-internal settings (maxium memory limit through the \code{-XmX} flag) or through OS utilities (CPU time limiting using the process' "nice" value, or through cgroups). These measures are set up by the starting scripts initializing the handlers.
+	However, limiting the instances memory capacity and CPU time is still crucial, as burning through any of them may result in errors being thrown in another JVM instance. Fortunately, these can be managed either through JVM-internal settings (maxium memory limit through the \code{-XmX} flag) or through OS utilities (CPU time limiting using the process' 'nice' value, or through cgroups). These measures are set up by the starting scripts initializing the handlers.
 
 %\end{document}
 

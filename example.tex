@@ -68,17 +68,17 @@
 	
 	During the setup phase, the players place all their ships on their $10\times10$ grid battlefield vertically or horizontally. The only limitation is that ships may not border each other over edges (they can touch diagonally). After this setup is complete, the players may not reposition their ships for the remainder of the game and their layout is kept secret.
 	
-	Then the shootout begins. Taking turns, the players select targets (by their coordinates, such as 'A--5') and their opponent report them the result of the attack as either 'miss', 'hit' or 'sink'. Miss means no ship has been placed at that position, hit and sink reflect that a ship in fact occupied that place, sink also means that all of the ship's part have been hit previously. The player then marks the selected position on his own target field (as hit or miss), and if the result was not a miss, the other player marks the targeted part of the ship hit. The current player keeps shooting at new targets until he misses, or all the enemy ships have sunk. After that --- if not all ships are gone --- a new turn starts and the opponent start shooting. The first player to destroy all of their adversary's vessels wins the game.
+	Then the shootout begins. Taking turns, the players select targets (by their coordinates, such as 'A--5') and their opponent report them the result of the attack as either 'miss', 'hit', or 'sink'. Miss means no ship has been placed at that position, hit and sink reflect that a ship in fact occupied that place, sink also means that all of the ship's part have been hit previously. The player then marks the selected position on his own target field (as hit or miss), and if the result was not a miss, the other player marks the targeted part of the ship hit. The current player keeps shooting at new targets until he misses, or all the enemy ships have sunk. After that --- if not all ships are gone --- a new turn starts, and the opponent starts shooting. The first player to destroy all of their adversary's vessels wins the game.
 
 		\section{Design}
 		
-		Designing often involves taking a gameplay planned for real-world usage and created with physical limitations in mind, and modifying it to naturally fit into a virtual environment. This, of course, is done any time a digital version of a game is being made, however, in this case a notable design consideration is the fact that the players (bots) and the core game (engine) must be separated from each other.
+		Designing often involves taking a gameplay planned for real-world usage, and created with physical limitations in mind, and modifying it to naturally fit into a virtual environment. This, of course, is done any time a digital version of a game is being made, however, in this case a notable design consideration is the fact that the players (bots) and the core game (engine) must be separated from each other.
 		
 		I have decided to follow the natural separation of game phases --- setup and shootout.
 		
 		The setup could be done through a number of ways, for example per-ship placement requests (engine asks the bot where each ship should go), distinct placements of ships (engine asks the bot to place one of the remaining ships), or a one-time setup of all ships (engine asks for a complete setup). I have opted to use the latter, as I felt it matches the layout planning the most. Since the ships have placement constraints between them, it is probable that a bot places all of them at once to ensure the validity of the design anyway.
 		
-		The shootout part is basically the same operation done over and over on an ever-changing target map. It, again, could be designed in many ways, e.g. with a single- or result-dependent result callbacks, or with the previous result sent at each new target request. I have elected to go with passing the results at every new request to simplify the bot interface. This means that at the first shooting, the previous status is a \code{null} value, which is not ideal due to java's lack of proper distinction between nullable and non-nullable types, but with good bot interface documentation it is not a problem.
+		The shootout part is basically the same operation done over and over on an ever-changing target map. It, again, could be designed in many ways, e.g. with a single-, or with result-dependent result callbacks (\code{result(...)}; \code{onSink(...)}, \code{onHit(...)}, \code{onMiss(...)}), or with the previous result sent at each new target request. I have elected to go with passing the results at every new request to simplify the bot interface. This means that at the first shooting, the previous status is a \code{null} value, which is not ideal due to java's lack of proper distinction between nullable and non-nullable types, but with good bot interface documentation it is not a problem.
 
 		\section{Game API}
 		
@@ -94,15 +94,15 @@
 				
 				\paragraph{\code{Ship}} Describes the properties of a ship, including its (start) position, direction, and size. \emph{(data class)}
 				
-				\paragraph{\code{ShootResult}} the result of an shot, may be a miss, a hit, or a sink. \emph{(enumeration)}
+				\paragraph{\code{ShootResult}} the result of a shot, may be a miss, a hit, or a sink. \emph{(enumeration)}
 				
 				\paragraph{\code{TargetMap}} the view of the opponent's field. Shows all the tried positions as shoot results. When a ship is sunk, its bordering water is marked missed, and the ship itself as sunk. Each position can be queried individually, and it also contains a helper method to list all non-yet-tried targets.
 			
 			\subsection{Bot interface}
 			
-			The bot interface (\code{BotInterface}) is based on the design of the communication between the engine and the bots, therefore it has two abstract methods: \code{setupField} and \code{nextShoot}.
+			The bot interface (\code{BattleshipBot}) is based on the design of the communication between the engine and the bots, therefore it has two abstract methods: \code{setupField} and \code{nextShoot}.
 
-			\code{setupField} takes the sizes of the ships to be placed as its parameter, and must return a valid list of ships. It is called at the beginning of the game once.
+			\code{setupField} takes the sizes of the ships to be placed as its parameter, and must return a valid list of ships. It is called once, at the beginning of the game.
 			
 			\code{nextShoot} is called on each turn and is used to determine the target of the next shot. Its arguments are the current value of the bot's target map, the previous target of the bot, and the result of the previous shot. The latter two are \code{null} on the first turn of the bot. The method must return a valid, not yet tried target to shoot at.
 		
@@ -133,7 +133,7 @@
 
 		The game engine class' structure is quite typical. For per-bot data keeping it defines a static inner class to hold the field of the bot with its last target and the result of that shot (if any). For each bot, an instance of this gets created on the duel game engine's bot initialization phase, based on given bot's placement of its ships.
 		
-		After that, the turn-based shooting starts. A turn here --- by the duel game engine's definition --- represents a set of operations that take place while one of the bots is working. This may include multiple shots, until the active bot finally misses or wins the game by sinking all enemy ships. After each shot attempt, the engine first validates the target by checking that it is a not yet tried position on the board. Based on the validation result, the engine either declares the game lost due to an error, or actually processes the changes which results in a shot result. The bot's previous shot data is always updated to the current target and result, then based on the shot result some action may follow: 
+		After that, the turn-based shooting starts. A turn here --- by the duel game engine's definition --- represents a set of operations that take place while one of the bots is working. This may include multiple shots, until the active bot finally misses or wins the game by sinking all enemy ships. After each shot attempt, the engine first validates the target by checking that it is a not yet tried position on the board. Based on the validation result, the engine either declares the game lost due to an error, or actually processes the changes, which lead to in a shot result. The bot's previous shot data is always updated to the current target and result, then based on the shot result some action may follow: 
 		
 		\begin{itemize}
 		
@@ -149,7 +149,7 @@
 		
 		I have found it often useful when implementing a game to first create a simple bot that plays the game 'dumbly', but in accordance with the rules. This helps in both testing the engine, and can be used to duel against a more competent opponent later on.
 		
-		It the case of battleship, I have created a bot that places its ships randomly, then at the shootout phase chooses targets also randomly --- of the not yet tried tiles ---, regardless of its attacks' result.
+		In the case of battleship, I have created a bot that places its ships randomly, then at the shootout phase chooses targets also randomly --- of the not yet tried tiles ---, regardless of its attacks' result.
 		
 		This implementation, of course, performs very poorly ($\mathbb{E}(x) \approx 71.19$ turns to finish), but can still give a good idea of what functionality to build into the api, in this case the shared random ship placement was a result of this experiment.
 		
