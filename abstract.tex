@@ -9,14 +9,14 @@ Jelen projekt célja egy rugalmas, nyitott környezet kifejlesztése, mely lehet
 
 A keretrendszer továbbá leírja a modellt, melyre alapozva intuitív módon készíthetőek idiomatikus kliensek a rendszerhez, a gyakori programnyelvek --- és leginkább a gazda java nyelv --- stílusának megfelelően. Egy példa projekt keretein belül bemutatok egy tipikus felhasználási módot, végigjárva annak a fejlesztés során felmerülő tervezési döntéseit és megvalósítási vonatkozásait. 
 
-Továbbá a projekt megvalósít egy, az imént említett biztosnágos futtatókörnyezetet felhasználó és működtető rendszert, mely kezelési- és információ megjelenítési lehetőségekkel látja el felhasználóit. 
+Továbbá a projekt megvalósít egy, az imént említett biztonságos futtatókörnyezetet felhasználó és működtető rendszert, mely kezelési- és információ megjelenítési lehetőségekkel látja el felhasználóit. 
 
 %Jelen projekt célja egy rugalmas, nyitott környezet kifejlesztése, mely lehetővé teszi különböző megbízhatatlan forrásból származó, egymással összekapcsolt programok JVM--alapú biztonságos futtatását. Ez nagyrészt a platform beépített biztonsági lehetőségeivel, és az ezeket kiegészítő egyéni megoldásokkal van megoldva. A keretrendszernek emellett lehetőséget kell biztosítania ezen programok a nyelvhez igazodó stílusban történő megírását úgy, hogy a lehető legkevesebb akadályt állítja fel a szükséges biztonság betartatása mellett.
 \end{otherlanguage}
 
 \chapter*{Abstract}\addcontentsline{toc}{chapter}{Abstract}
 
-This goal of this project is to develop a flexible, open runime that allows for the safe execution of distinct, connected programs from untrusted sources on the JVM. Executing unsafe, unverified code is, of course, a major security concern, which must be dealt with by carefully designing the system to guard effectively against possible attacks and exploits. In this thesis, I will describe the in-depth construction and working of such a system, and its supplementary management modules. Used security measures are based largely on the java platform's security capabilities, extended with custom solutions.
+This goal of this project is to develop a flexible, open runime that allows for the safe execution of distinct, connected programs from untrusted sources on the JVM. Executing unsafe, unverified code is, of course, a major security concern, which must be dealt with by carefully designing the system to guard effectively against possible attacks and exploits. In this thesis, I will describe the in-depth construction and inner working of such a system, and its supplementary management modules. Used security measures are based largely on the java platform's security capabilities, extended with custom solutions.
 
 The framework also defines the model, based on which client programs may be created for it in an idiomatic, intuitive manner; fitting the control structure of most commonly used programming languages --- especially the host java language. I will demonstrate a typical usage of the runtime via an example project, describing in detail the design decisions and implementational concerns that may arise during development.
 

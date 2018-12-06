@@ -1,15 +1,15 @@
 [0] Config.pm:302> INFO - This is Biber 2.9
 [0] Config.pm:305> INFO - Logfile is 'diploma.blg'
-[18] biber:313> INFO - === cs dec  6, 2018, 19:29:06
-[33] Biber.pm:371> INFO - Reading 'diploma.bcf'
-[78] Biber.pm:857> INFO - Found 10 citekeys in bib section 0
-[88] Biber.pm:3981> INFO - Processing section 0
-[96] Biber.pm:4154> INFO - Looking for bibtex format file 'mybib.bib' for section 0
-[96] bibtex.pm:1468> INFO - LaTeX decoding ...
-[104] bibtex.pm:1294> INFO - Found BibTeX data source 'mybib.bib'
-[141] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[141] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[141] Biber.pm:3809> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-US'
-[141] Biber.pm:3815> INFO - No sort tailoring available for locale 'en-US'
-[147] bbl.pm:617> INFO - Writing 'diploma.bbl' with encoding 'UTF-8'
-[149] bbl.pm:720> INFO - Output to diploma.bbl
+[21] biber:313> INFO - === cs dec  6, 2018, 19:35:21
+[37] Biber.pm:371> INFO - Reading 'diploma.bcf'
+[83] Biber.pm:857> INFO - Found 10 citekeys in bib section 0
+[94] Biber.pm:3981> INFO - Processing section 0
+[102] Biber.pm:4154> INFO - Looking for bibtex format file 'mybib.bib' for section 0
+[103] bibtex.pm:1468> INFO - LaTeX decoding ...
+[111] bibtex.pm:1294> INFO - Found BibTeX data source 'mybib.bib'
+[150] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[150] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[150] Biber.pm:3809> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[150] Biber.pm:3815> INFO - No sort tailoring available for locale 'en-US'
+[157] bbl.pm:617> INFO - Writing 'diploma.bbl' with encoding 'UTF-8'
+[159] bbl.pm:720> INFO - Output to diploma.bbl
