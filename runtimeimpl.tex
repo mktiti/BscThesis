@@ -52,7 +52,7 @@
 	\section{Messaging}
 		\subsection{Format}
 		
-		All messages start with a fixed prefix (\code{MESSAGE}), end with a line break, and their different parts are separated by hyphens. Messages consist of two logical parts: the header and the payload. The former specifies the type of the message, and provides other information like the type parameters which may be needed to process this kind of message; while the latter carries additional information in the form of a blob and its size in bytes.
+		All messages start with a fixed prefix (\code{MESSAGE}), end with a line break, and their different parts are separated by hyphens. Messages consist of two logical parts: the header and the payload. The former specifies the type of the message, and provides other information like the type parameters, which may be needed to process this kind of message; while the latter carries additional information in the form of a blob and its size in bytes.
 		
 		\begin{figure}[h]
 			\[
@@ -71,9 +71,9 @@
 		
 		\paragraph{Type parameters and payload}
 		
-		The difference between the type parameters and the payload data is that type parameters can be understood and processed without 'unsafe' operations such as java deserialization. Their arity and types are determined by the message type, and their values may consist of primitives, strings, or values of enumerations. This --- combined with a size limit on them --- allows the runtime handler to always safely parse, process and, optionally, route the messages without requiring it to understand the potentially unsafe data of the payload.
+		The difference between the type parameters and the payload data is that type parameters can be understood and processed without 'unsafe' operations, such as java deserialization. Their arity and types are determined by the message type, and their values may consist of primitives, strings, or values of enumerations. This --- combined with a size limit on them --- allows the runtime handler to always safely parse, process, and optionally, route the messages without requiring it to understand the potentially unsafe data of the payload.
 		
-		The data payload on the other hand deals with binary data produced by one of the actors, and as such should only be parsed by the actor clients taht are already equipped with the proper protective capabilities.
+		The payload on the other hand deals with binary data produced by one of the actors, and as such should only be parsed by the actor clients, which are already equipped with the proper protective capabilities.
 		The payloads size --- in bytes --- is also included in the message for safe message handling.
 		
 		Both the type parameters and the payload are converted to base 64 strings, as to make message formatting and parsing easier --- due to no necessary separator escaping.
@@ -126,13 +126,13 @@
 
 			\paragraph{Serialization and Deserialization}
 			
-			Serialization takes payload-less messages or converted messages, and transforms them to the aforementioned general message format. This includes encoding the message header, and concatenating it to the prefix and optional (already converted) payload. This encoding of the header --- and its pair decoding in deserialization --- can be done safely and strictly, as the content of the header specified by the message type, and its parameters are simple values that can be easily converted to strings.
+			Serialization takes payload-less messages or converted messages, and transforms them to the aforementioned general message format. This includes encoding the message header, and concatenating it to the prefix and optional (already converted) payload. This encoding of the header --- and its pair decoding in deserialization --- can be done safely and strictly, as the content of the header is specified by the message type, and its parameters are simple values that can be easily converted to strings.
 			
 			As all parties require (de)serialization to communicate, the components providing these services are shared across all of them.
 
 		\subsection{Communication}
 		
-		All messaging is done over point-to-point, full-duplex TCP channels between the actor clients and the runtime handler. These connections are initialized by the clients, who as a command argument receive the host --- usually localhost --- and the port they should connect to. These ports are free ports chosen randomly by the handler, and reserved before the start of the clients.
+		All messaging is done over point-to-point, full-duplex TCP channels between the actor clients and the runtime handler. These connections are initialized by the clients, who --- as a command arguments --- receive the host --- usually localhost --- and the port they should connect to. These ports are free ports chosen randomly by the handler, and reserved before the start of the clients.
 		
 		Once these channels have been established, communication should begin as described by the communication model --- starting with the clients requesting the game specific actor binaries.
 		
@@ -142,7 +142,7 @@
 
 	\section{Runtime handler}
 
-	A runtime handler is made up of a couple of active components and passive data structures. Active components are primarily based on their own thread, and communicate with each other through either direct calls, or the passive structures.
+	A runtime handler is made up of a couple of active components and passive data structures. Active components are primarily based on their own threads, and communicate with each other through either direct calls, or the passive structures.
 	There are two kinds of these active components, a --- per runtime handler --- singleton control handler, and actor handlers for each actor client runtime. Passive components come in the form of a control queue and log stores for each actor.
 		
 		\begin{figure}[h]
@@ -191,7 +191,7 @@
 					node [transform canvas={xshift=1.15cm, yshift=-0.55cm}, align=center]
 					{\emph{put control}\\ \emph{message}} (CQ);
 				\draw[post,rounded corners=5pt] (A2H.north) ++(-.6,0) |- 
-					node [transform canvas={xshift=-1.15cm, yshift=0.55cm}, align=center]
+					node [transform canvas={xshift=-1.15cm, yshift=0.63cm}, align=center]
 					{\emph{put control}\\ \emph{message}} (CQ);
 				
 				\draw[post,rounded corners=5pt] (A1H.east) -- ++(.6,0) |- (A1LQ);
@@ -209,14 +209,14 @@
 				\node[draw, dashed, thick] (T) [above of=CH, node distance=1.5cm] {\textbf{Runtime Handler}};
 				
 			\end{tikzpicture}
-			\caption*{\emph{Runtime handler simplified component model} \\ \emph{Challenge -- two actors}}
+			\caption*{\emph{Runtime handler simplified component model} \\ \emph{Challenge --- two actors}}
 		\end{figure}
 		
 		\subsection{Control handler}
 		
 		The control handler is the heart of the runtime handler, as its name implies, it directs the flow of the game, and manages the actor handlers. At its core it is a finite-state machine that processes control messages, and optionally instructs the actor handlers to send messages based on the actions.
 		
-		It is important to note that the control messages it consumes are slightly different from the general messages sent between the members of the runtime model, as they have been preprocessed by the actor handlers. The two main changes are that log messages have been removed (they are processed by the actor handlers), and each message contains its source actor. The control handler acquires these messages from the control queue, which acts as a thread-safe buffer between the components. The possible control states are:
+		It is important to note that the control messages it consumes are slightly different from the general messages sent between the members of the runtime model, as they have been preprocessed by the actor handlers. The two main changes are that log messages have been removed (those are processed by the actor handlers), and each message contains its source actor. The control handler acquires these messages from the control queue, which acts as a thread-safe buffer between the components. The possible control states are:
 		
 		\begin{itemize}
 			\item \textbf{Connection await} The initial state, it signals that not all actor clients are ready to start, as not all have connected or received all the binaries they need.
@@ -380,7 +380,7 @@
 					{\textbf{Actor Handler}};
 				
 			\end{tikzpicture}
-			\caption*{\emph{Actor handler model} \\ \emph{Challenge -- two actors}}
+			\caption*{\emph{Actor handler model} \\ \emph{Challenge --- two actors}}
 		\end{figure}		
 		
 	\section{Actor runtime}
@@ -474,7 +474,7 @@
 			
 			As a security manager is installed, other code sources have no granted permissions by default, therefore all other (unsafe) code parts need only not to be marked as being from the same source.
 			
-			The loading of the user-defined code blocks is implemented by a custom class loader (\code{BinaryClassLoader}), which works on in-memory byte array representations of java archives (JARs). These libraries are sent over to the actor client in actor binary messages, then the client passes them to the classloader for processing. The loader iterates through the compiled referencial type entries of the archive (\code{.class} files), and defines them using the standard native class loader methods. The binary class loader also sets these classes protection domain, which --- due to different source definitions --- provide no granted permissions to them.
+			The loading of the user-defined code blocks is implemented by a custom class loader (\code{BinaryClassLoader}), which works on in-memory byte array representations of java archives (JARs). These libraries are sent over to the actor client in actor binary messages, then the client passes them to the classloader for processing. The loader iterates through the compiled referencial type entries of the archive (\code{.class} files), and defines them using the standard native class loader methods. The binary class loader also sets these classes' protection domain, which --- due to different source definitions --- provide no granted permissions to them.
 			
 			Although this way no permissions are granted to the user defined programs, they would still be able to engage in unwanted behavior, namely multi-thread operations. The game model specifies strict 'ask--respond' style communication between the engine and the bots for clear gameplay and enforceable timeout limiting. This means that when --- as a result of a proxy invocation --- a method of a bot is called, it must finish all operations when that method returns. As threads cannot be safely killed once started, this effectively forbids custom thread creation, even in non-straightforward ways, such as the use of an executor framework. Fortunately, while 'no granted permissions' still allow thread creation, there is a safe way of disabling thread formation for unsafe code. At the initialization of a thread object, the environment does check access permission, but the default behavior is to allow thread creation if the thread is created into the current thread group. The look up of the current group is done by the set up security manager using its \code{getThreadGroup} method. By overriding this method of the default security manager, we can return the root thread group, which will always be different from the caller's thread group, and thus thread creation will fail when attempted from unsafe code.
 			
@@ -484,7 +484,7 @@
 		
 			\paragraph{Engine client}
 		
-			After the bot interface has been found, the engine client creates one or two stub instances for this interface. This is done using the java runtime's built-in dynamic proxy creation capability through the \code{Proxy} class' static \code{newProxyInstance} method. This method takes an invocation handler --- a callback that takes as its parameters the context in which a method of the proxy was called, and meta data about that same method. My implementation of this callback is to create and send --- put into the outgoing message queue to be more precise --- a proxy call message. This message will contain the target bot, a unique identifier of the method (full signature), and the method arguments serialized.
+			After the bot interface has been found, the engine client creates one or two stub instances for this interface. This is done using the java runtime's built-in dynamic proxy creation capability through the \code{Proxy} class' static \code{newProxyInstance} method. This method takes an invocation handler --- a callback that takes as its parameters the context in which a method of the proxy was called, and meta data about that same method. My implementation of this callback is to create and send --- put into the outgoing message queue to be more precise --- a proxy call message. This message will contain the target bot, a unique identifier of the method (full signature), and the method arguments serialized. After sending this message, the handler waits for a response (by blockingly querying the incoming message queue), unwraps the result, and returns it.
 			
 			After the stubs have been generated, the engine client searches through the user defined classes, looks for the engine, and creates an instance of it with the previously created proxies as the constructor parameters.
 			

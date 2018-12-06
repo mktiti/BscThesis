@@ -133,7 +133,7 @@
 
 		The game engine class' structure is quite typical. For per-bot data keeping it defines a static inner class to hold the field of the bot with its last target and the result of that shot (if any). For each bot, an instance of this gets created on the duel game engine's bot initialization phase, based on given bot's placement of its ships.
 		
-		After that, the turn-based shooting starts. A turn here --- by the duel game engine's definition --- represents a set of operations that take place while one of the bots is working. This may include multiple shots, until the active bot finally misses or wins the game by sinking all enemy ships. After each shot attempt, the engine first validates the target by checking that it is a not yet tried position on the board. Based on the validation result, the engine either declares the game lost due to an error, or actually processes the changes, which lead to in a shot result. The bot's previous shot data is always updated to the current target and result, then based on the shot result some action may follow: 
+		After that, the turn-based shooting starts. A turn here --- by the duel game engine's definition --- represents a set of operations that take place while one of the bots is working. This may include multiple shots, until the active bot finally misses or wins the game by sinking all enemy ships. After each shot attempt, the engine first validates the target by checking that it is a not yet tried position on the board. Based on the validation result, the engine either declares the game lost due to an error, or actually processes the changes, which lead to a shot result. The bot's previous shot data is always updated to the current target and result, then based on the shot result some action may follow: 
 		
 		\begin{itemize}
 		
@@ -147,7 +147,7 @@
 
 		\section{Random bot}
 		
-		I have found it often useful when implementing a game to first create a simple bot that plays the game 'dumbly', but in accordance with the rules. This helps in both testing the engine, and can be used to duel against a more competent opponent later on.
+		I have found it often useful when implementing a game to first create a simple bot that plays the game 'dumb', but in accordance with the rules. This helps in both testing the engine, and can be used to duel against a more competent opponent later on.
 		
 		In the case of battleship, I have created a bot that places its ships randomly, then at the shootout phase chooses targets also randomly --- of the not yet tried tiles ---, regardless of its attacks' result.
 		
@@ -155,7 +155,7 @@
 		
 		\begin{center}
 		\begin{minipage}{13cm}
-		\begin{lstlisting}[title={\code{RandomBot.java}}]
+		\begin{lstlisting}[language=Java, title={\code{RandomBot.java}}]
 	  @Override
       public List<Ship> setupField(List<Integer> shipSizes) {
           return ShipUtil.randomSetup(shipSizes);
@@ -171,7 +171,7 @@
           final List<Position> targets =
         		  targetMap.freePositions().collect(toList());
         		
-          // choosing randomly
+          // choose randomly
           return targets.get(random.nextInt(targets.size()));
       }
 		\end{lstlisting}

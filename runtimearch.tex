@@ -42,13 +42,13 @@ The limitations of java's security error handling make the JVM unable to provide
 	\section{Actor client runtimes}
 	
 	Actor client runtimes are executable java processes that are responsible for communicating with the runtime handler, providing a secure environment in which the given actor can be used, processing requests from the runtime handler, driving the actor in response to the received control messages, and reporting any problems that might occur during the game.
-	They come in two forms, based on whether they manage a game engine or a bot, as the two tasks require different messages and control structure.
+	They come in two forms, based on whether they manage a game engine or a bot, as the two tasks require different messages and control structures.
 
 	 The runtimes are isolated programs, that only need to know the way of connecting to the handler to run, as they actually receive the actor to be managed and other libraries through standard messages after startup. This allows a flexible separation of the runtimes as long as a connection can be provided between them. If, for example, extra security or scalability is warranted, the design would allow running these clients on different physical- or virtual machines, or other types of containers.
 	
 	All actor client runtimes provide logging facilities to their respective actors, which can be used to save messages to be viewed by the creator of the actor after the game has ended.
 	
-	Beside direct client-handler messaging --- such as logging or error reporting ---, the runtime model also needs to manage inter-actor communication to allow an engine to interact with the bots. This is manifested as one directional method calls as --- due to the logic of the system --- only the engines have access to their bots and not in reverse.
+	Beside direct client--handler messaging --- such as logging or error reporting ---, the runtime model also needs to manage inter-actor communication to allow an engine to interact with the bots. This is manifested as one directional method calls as --- due to the logic of the system --- only the engines have access to their bots and not in reverse.
 	As these calls should happen between objects running on different java virtual machines, remote method invocation is necessary.
 	
 		\subsection*{Engine client runtime}
@@ -57,7 +57,7 @@ The limitations of java's security error handling make the JVM unable to provide
 	
 		\subsection*{Bot client runtime}
 		
-		As an engine runtime handles the stub side of the actor-bot remote communication, a bot runtime must provide a way of processing incoming invocation requests, and forward them to the bot it drives. After the target method has been executed, and some kind of result produced, it is this skeleton's task to send the outcome back through the runtime handler.
+		As an engine runtime handles the stub side of the actor--bot remote communication, a bot runtime must provide a way of processing incoming invocation requests, and forward them to the bot it drives. After the target method has been executed, and some kind of result is produced, it is this skeleton's task to send the outcome back through the runtime handler.
 
 	\section{Communication model}
 
@@ -65,7 +65,7 @@ The limitations of java's security error handling make the JVM unable to provide
 		
 		Some messages can be closely tied to actor operations, while others help to operate the runtime model. 
 
-		Messages carry three types of information: their type, the type's optional parameters, and an optional payload as well. The type is to determine the objective of the message, while the type parameters and payload are to carry variable information of the instance of the message. The latter two's separation is an implementational decision that ensures safe message handling. As such, from the communication model's perspective, they can be viewed as a combined payload, and in the remainder of this chapter will be referred to as 'payload' or 'data'.  
+		Messages carry three types of information: their type, the type's optional parameters, and an optional payload as well. The type is to determine the objective of the message, while the type parameters and payload are to carry variable information of the instance of the message. The latter two's separation is an implementational decision that ensures safe message handling. As such, from the communication model's perspective, they can be viewed as a combined payload, and in the remainder of this chapter will be referred to as simlpy 'payload' or 'data'.  
 
 		\subsection*{Simple messages}
 		
@@ -221,7 +221,7 @@ The limitations of java's security error handling make the JVM unable to provide
 					{3: Bot timeout} (H);
 				
 					\node [node distance=1.1cm, align=center] () [below of = B]
-					{\emph{Remote mothod invocation} \\ \emph{ended in bot timeout}};
+					{\emph{Remote method invocation} \\ \emph{ended in bot timeout}};
 				
 			\end{tikzpicture}
 			\end{figure}

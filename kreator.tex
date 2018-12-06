@@ -128,7 +128,7 @@ Although solutions of varying functionality and quality have existed for years -
 	
 	\section{Injection qualifiers}
 	
-		Injection qualifiers are meta data connected to the injectable resources, which are used to select a resource for a given injection request. Such a request is a call of one of the injection functions. Its selector inputs are the implicitly defined --- through generics --- injection type, assigned environment, defaultness, and an optional tag value.
+		Injection qualifiers are meta data connected to the injectable resources, which are used to select a resource for a given injection request. Such a request is a call of one of the injection functions. Its selector inputs are the implicitly defined --- through generics --- injection type, assigned environment, and an optional tag value.
 	
 		\subsection*{Tag}
 	
@@ -155,8 +155,8 @@ Although solutions of varying functionality and quality have existed for years -
 				\hline
 			 	\textbf{Env. group} & \textbf{Example resources} & \textbf{Lookup} \\ \hline
 				Exact match & \code{"test.unit"} & First \\ \hline
-				Sub env. & \code{"test.unit.junit"} & Second \\ \hline
-				Sup env. & \code{"test"}, \code{""} & Third \\ \hline
+				Sub environment & \code{"test.unit.junit"} & Second \\ \hline
+				Sup environment & \code{"test"}, \code{""} & Third \\ \hline
 				Neither & \code{"dev"}, \code{"prod.local"} & Never \\ \hline
 			\end{tabularx}
 			\caption*{\emph{Groups and examples for the program environment }\code{"test.unit"}}
@@ -174,7 +174,7 @@ Although solutions of varying functionality and quality have existed for years -
 	
 	\section{Resource declaration}
 	
-	In contrast to some DI frameworks (such as most declarative ones, including java CDI~\cite{CdiInjectable}) not all classes that comply with some rules (e.g. having a no-arg constructor) are automatically eligible for injection. As more common in programmatic systems, resources must be marked explicitly as injectable --- but using annotations.
+	In contrast to some DI frameworks (such as most declarative ones, including java CDI~\cite{CdiInjectable}), not all classes that comply with some rules (e.g. having a no-arg constructor) are automatically eligible for injection. As more common in programmatic systems, resources must be marked explicitly as injectable --- but using annotations.
 	The four annotations associated with resource declaration are \code{InjectableType}, \code{Injectable}, \code{TestInjectable}, and \code{NotInjectableFor}.
 
 		\paragraph{\code{InjetableType}} This annotation marks types that act as a target for injection. It is intended to be used on interfaces that define the behavior of a type of services.
@@ -199,7 +199,7 @@ Although solutions of varying functionality and quality have existed for years -
 	
 		\begin{center}
 			\begin{minipage}{13.5cm}
-		\begin{lstlisting}[language=Java, title={\emph{Sample config} --- \code{tulkas.conf}}]
+		\begin{lstlisting}[rulecolor=, language=, title={\emph{Sample config} --- \code{tulkas.conf}}]
 	Client {
 		Log {
 			base-dir: /tulkas/log/
@@ -269,11 +269,11 @@ Although solutions of varying functionality and quality have existed for years -
 	
 	Kreator is structured as a maven project, and is separated into four modules all targeting their respective jar files --- \emph{annotation}, \emph{api}, \emph{core}, and \emph{property}.
 	
-	\paragraph{Annotation} contains necessary types for resource declaration, it is a very minimal library that can be used by any frameworks or libraries that wish to provide optional Kreator-based injection support. It only contains declarative parts, therefore if a dependency of a program is built on it, but the program itself decides not to use Kreator, no disadvantage will happen.
+	\paragraph{Annotation} contains necessary types for resource declaration, it is a very minimal library that can be used by any framework or library that wishes to provide optional Kreator-based injection support. It only contains declarative parts, therefore if a dependency of a program is built on it, but the program itself decides not to use Kreator, no disadvantage will happen.
 	
-	\paragraph{API} defines the injetion functions with default no-op implementations, therefore it too can be used in a library without the it affecting all users of that library, only the injections will fail (return null on optional injections).
+	\paragraph{API} defines the injetion functions with default no-op implementations, therefore it, too, can be used in a library without it affecting all users of that library, only the injections will fail (return null on optional injections).
 	
-	\paragraph{Core} includes the default implementation of the implementation logic defined by \emph{api}, and is necessary for injection. It is designed to be easily replaceable by alternative implementations.
+	\paragraph{Core} includes the default implementation of the injection logic defined by \emph{api}, and is necessary for injection. It is designed to be easily replaceable by alternative implementations.
 	
 	\paragraph{Property} defines and implements all the aforementioned property configuration capabilities.
 	
